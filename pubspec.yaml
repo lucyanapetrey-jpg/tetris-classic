@@ -1,7 +1,7 @@
 name: tetris_classic
 description: "Tetris clasic cu tetrominoes, level system si line clearing"
 publish_to: 'none'
-version: 1.0.0+1
+version: 2.0.0+10
 
 environment:
   sdk: ^3.11.1
