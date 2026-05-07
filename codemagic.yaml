@@ -36,6 +36,8 @@
       flutter: stable
       xcode: latest
       cocoapods: default
+      groups:
+        - default
       vars:
         BUNDLE_ID: "ro.summersmile.tetrisclassic"
         XCODE_WORKSPACE: "Runner.xcworkspace"
