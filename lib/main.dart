@@ -2,9 +2,13 @@ import 'package:flutter/material.dart';
 import 'screens/home_screen.dart';
 import 'services/ad_service.dart';
 import 'services/audio_service.dart';
+import 'services/diamond_service.dart';
+import 'services/purchase_service.dart';
 
-void main() {
+void main() async {
   WidgetsFlutterBinding.ensureInitialized();
+  await DiamondService().init();
+  await PurchaseService.instance.initialize();
   AdService().init();
   AudioService().init();
   runApp(const TetrisApp());
