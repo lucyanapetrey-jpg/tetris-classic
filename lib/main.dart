@@ -1,7 +1,10 @@
 import 'package:flutter/material.dart';
 import 'screens/home_screen.dart';
+import 'services/ad_service.dart';
 
 void main() {
+  WidgetsFlutterBinding.ensureInitialized();
+  AdService().init();
   runApp(const TetrisApp());
 }
 

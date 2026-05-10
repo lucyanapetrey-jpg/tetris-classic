@@ -5,6 +5,7 @@ import 'package:flutter/services.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import '../game/board.dart';
 import '../game/tetromino.dart';
+import '../services/ad_service.dart';
 import '../services/rewards_service.dart';
 
 class Particle {
@@ -37,6 +38,8 @@ class _GameScreenState extends State<GameScreen> with TickerProviderStateMixin {
   int _level = 1;
   int _lines = 0;
   int _combo = 0;
+  int _blocksPlaced = 0;
+  static const int _adEveryNBlocks = 20;
   bool _over = false;
   bool _paused = false;
   final List<Particle> _particles = [];
@@ -97,6 +100,7 @@ class _GameScreenState extends State<GameScreen> with TickerProviderStateMixin {
       if (!_board.softDrop()) {
         final lines = _board.lock();
         _addScore(lines, false);
+        _onBlockLocked();
         if (!_board.spawn()) {
           _over = true;
           _timer?.cancel();
@@ -104,6 +108,13 @@ class _GameScreenState extends State<GameScreen> with TickerProviderStateMixin {
         }
       }
     });
+  }
+
+  void _onBlockLocked() {
+    _blocksPlaced++;
+    if (_blocksPlaced % _adEveryNBlocks == 0) {
+      AdService().showInterstitial();
+    }
   }
 
   void _addScore(int lines, bool isHardDrop) {
@@ -181,6 +192,7 @@ class _GameScreenState extends State<GameScreen> with TickerProviderStateMixin {
       _score += dist * 2;
       final lines = _board.lock();
       _addScore(lines, true);
+      _onBlockLocked();
       if (!_board.spawn()) {
         _over = true;
         _timer?.cancel();
@@ -301,18 +313,19 @@ class _GameScreenState extends State<GameScreen> with TickerProviderStateMixin {
         if ((d.primaryVelocity ?? 0) > 1500) _hardDrop();
       },
       child: Center(
-        child: AspectRatio(
-          aspectRatio: TetrisBoard.cols / TetrisBoard.rows,
-          child: Container(
-            margin: const EdgeInsets.all(8),
-            decoration: BoxDecoration(
-              color: Colors.black.withValues(alpha: 0.6),
-              border: Border.all(color: const Color(0xFF00E5FF).withValues(alpha: 0.6), width: 2),
-              boxShadow: const [
-                BoxShadow(color: Color(0x4400E5FF), blurRadius: 16, spreadRadius: 1),
-              ],
-            ),
-            child: LayoutBuilder(builder: (c, cons) {
+        child: Padding(
+          padding: const EdgeInsets.all(8),
+          child: AspectRatio(
+            aspectRatio: TetrisBoard.cols / TetrisBoard.rows,
+            child: Container(
+              decoration: BoxDecoration(
+                color: Colors.black.withValues(alpha: 0.6),
+                border: Border.all(color: const Color(0xFF00E5FF).withValues(alpha: 0.6), width: 2),
+                boxShadow: const [
+                  BoxShadow(color: Color(0x4400E5FF), blurRadius: 16, spreadRadius: 1),
+                ],
+              ),
+              child: LayoutBuilder(builder: (c, cons) {
               final cell = cons.maxWidth / TetrisBoard.cols;
               return Stack(
                 children: [
@@ -380,10 +393,11 @@ class _GameScreenState extends State<GameScreen> with TickerProviderStateMixin {
                         ),
                       ),
                     ),
-                  if (_over) _gameOverOverlay(),
-                ],
-              );
-            }),
+                    if (_over) _gameOverOverlay(),
+                  ],
+                );
+              }),
+            ),
           ),
         ),
       ),
@@ -423,6 +437,7 @@ class _GameScreenState extends State<GameScreen> with TickerProviderStateMixin {
                   _level = 1;
                   _lines = 0;
                   _combo = 0;
+                  _blocksPlaced = 0;
                   _over = false;
                 });
                 _startTick();
