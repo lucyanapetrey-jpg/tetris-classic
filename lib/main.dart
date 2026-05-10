@@ -1,10 +1,12 @@
 import 'package:flutter/material.dart';
 import 'screens/home_screen.dart';
 import 'services/ad_service.dart';
+import 'services/audio_service.dart';
 
 void main() {
   WidgetsFlutterBinding.ensureInitialized();
   AdService().init();
+  AudioService().init();
   runApp(const TetrisApp());
 }
 
@@ -14,7 +16,7 @@ class TetrisApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      title: 'Tetris Classic',
+      title: 'TetriSmile',
       debugShowCheckedModeBanner: false,
       theme: ThemeData.dark(useMaterial3: true).copyWith(
         scaffoldBackgroundColor: const Color(0xFF0D0D14),

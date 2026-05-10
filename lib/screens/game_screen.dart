@@ -250,12 +250,12 @@ class _GameScreenState extends State<GameScreen> with TickerProviderStateMixin {
             shaderCallback: (r) => const LinearGradient(
               colors: [Color(0xFF00E5FF), Color(0xFFAB47BC)],
             ).createShader(r),
-            child: const Text('TETRIS',
+            child: const Text('TETRI SMILE',
                 style: TextStyle(
-                    fontSize: 28,
+                    fontSize: 22,
                     fontWeight: FontWeight.w900,
                     color: Colors.white,
-                    letterSpacing: 6)),
+                    letterSpacing: 4)),
           ),
           const Spacer(),
           IconButton(
@@ -326,27 +326,26 @@ class _GameScreenState extends State<GameScreen> with TickerProviderStateMixin {
                 ],
               ),
               child: LayoutBuilder(builder: (c, cons) {
-              final cell = cons.maxWidth / TetrisBoard.cols;
+              final cellW = cons.maxWidth / TetrisBoard.cols;
+              final cellH = cons.maxHeight / TetrisBoard.rows;
               return Stack(
                 children: [
-                  // Grid lines for atmosphere
                   CustomPaint(
                     size: Size(cons.maxWidth, cons.maxHeight),
                     painter: _GridPainter(),
                   ),
-                  // Locked cells
                   for (var r = 0; r < TetrisBoard.rows; r++)
                     for (var c2 = 0; c2 < TetrisBoard.cols; c2++)
                       if (_board.grid[r][c2] != null)
                         Positioned(
-                          left: c2 * cell,
-                          top: r * cell,
-                          width: cell,
-                          height: cell,
+                          left: c2 * cellW,
+                          top: r * cellH,
+                          width: cellW,
+                          height: cellH,
                           child: _block(_board.grid[r][c2]!),
                         ),
-                  if (_board.current != null && !_over) ..._renderGhost(cell),
-                  if (_board.current != null) ..._renderCurrent(cell),
+                  if (_board.current != null && !_over) ..._renderGhost(cellW, cellH),
+                  if (_board.current != null) ..._renderCurrent(cellW, cellH),
                   // Particles
                   for (final p in _particles)
                     Positioned(
@@ -450,17 +449,17 @@ class _GameScreenState extends State<GameScreen> with TickerProviderStateMixin {
     );
   }
 
-  List<Widget> _renderCurrent(double cell) {
+  List<Widget> _renderCurrent(double cellW, double cellH) {
     final t = _board.current!;
     final widgets = <Widget>[];
     for (var i = 0; i < t.shape.length; i++) {
       for (var j = 0; j < t.shape[i].length; j++) {
         if (t.shape[i][j] == 0) continue;
         widgets.add(Positioned(
-          left: (t.x + j) * cell,
-          top: (t.y + i) * cell,
-          width: cell,
-          height: cell,
+          left: (t.x + j) * cellW,
+          top: (t.y + i) * cellH,
+          width: cellW,
+          height: cellH,
           child: _block(t.color),
         ));
       }
@@ -468,7 +467,7 @@ class _GameScreenState extends State<GameScreen> with TickerProviderStateMixin {
     return widgets;
   }
 
-  List<Widget> _renderGhost(double cell) {
+  List<Widget> _renderGhost(double cellW, double cellH) {
     final t = _board.current!;
     final gy = _board.ghostY();
     final widgets = <Widget>[];
@@ -476,10 +475,10 @@ class _GameScreenState extends State<GameScreen> with TickerProviderStateMixin {
       for (var j = 0; j < t.shape[i].length; j++) {
         if (t.shape[i][j] == 0) continue;
         widgets.add(Positioned(
-          left: (t.x + j) * cell,
-          top: (gy + i) * cell,
-          width: cell,
-          height: cell,
+          left: (t.x + j) * cellW,
+          top: (gy + i) * cellH,
+          width: cellW,
+          height: cellH,
           child: Container(
             margin: const EdgeInsets.all(1),
             decoration: BoxDecoration(
@@ -534,41 +533,66 @@ class _GameScreenState extends State<GameScreen> with TickerProviderStateMixin {
 
   Widget _controls() {
     return Padding(
-      padding: const EdgeInsets.symmetric(horizontal: 16),
+      padding: const EdgeInsets.symmetric(horizontal: 12),
       child: Row(
         children: [
-          _ctrlBtn(Icons.arrow_left, () => setState(() => _board.moveLeft())),
-          _ctrlBtn(Icons.rotate_right, () => setState(() => _board.rotate())),
-          _ctrlBtn(Icons.arrow_right, () => setState(() => _board.moveRight())),
-          _ctrlBtn(Icons.arrow_drop_down, () => setState(() => _board.softDrop())),
-          _ctrlBtn(Icons.vertical_align_bottom, _hardDrop),
+          _ctrlBtn(Icons.chevron_left, () => setState(() => _board.moveLeft()),
+              const Color(0xFF00E5FF)),
+          _ctrlBtn(Icons.rotate_right, () => setState(() => _board.rotate()),
+              const Color(0xFFAB47BC)),
+          _ctrlBtn(Icons.chevron_right, () => setState(() => _board.moveRight()),
+              const Color(0xFF00E5FF)),
+          _ctrlBtn(Icons.arrow_downward, () => setState(() => _board.softDrop()),
+              const Color(0xFF66BB6A)),
+          _ctrlBtn(Icons.keyboard_double_arrow_down, _hardDrop,
+              const Color(0xFFFFD740), accent: true),
         ],
       ),
     );
   }
 
-  Widget _ctrlBtn(IconData icon, VoidCallback onTap) {
+  Widget _ctrlBtn(IconData icon, VoidCallback onTap, Color color,
+      {bool accent = false}) {
     return Expanded(
       child: Padding(
         padding: const EdgeInsets.symmetric(horizontal: 4),
-        child: Material(
-          color: const Color(0xFF1A1A2E).withValues(alpha: 0.8),
-          borderRadius: BorderRadius.circular(12),
-          child: InkWell(
-            borderRadius: BorderRadius.circular(12),
-            onTap: () {
-              if (!_over && !_paused) {
-                onTap();
-                HapticFeedback.lightImpact();
-              }
-            },
-            child: Container(
-              height: 56,
-              decoration: BoxDecoration(
-                borderRadius: BorderRadius.circular(12),
-                border: Border.all(color: const Color(0xFF00E5FF).withValues(alpha: 0.5)),
+        child: GestureDetector(
+          onTap: () {
+            if (!_over && !_paused) {
+              onTap();
+              HapticFeedback.lightImpact();
+            }
+          },
+          child: Container(
+            height: 64,
+            decoration: BoxDecoration(
+              gradient: LinearGradient(
+                begin: Alignment.topLeft,
+                end: Alignment.bottomRight,
+                colors: accent
+                    ? [color, color.withValues(alpha: 0.7)]
+                    : [
+                        const Color(0xFF1E1B30).withValues(alpha: 0.85),
+                        const Color(0xFF120F22).withValues(alpha: 0.95),
+                      ],
               ),
-              child: Icon(icon, color: const Color(0xFF00E5FF), size: 30),
+              borderRadius: BorderRadius.circular(16),
+              border: Border.all(
+                color: color.withValues(alpha: accent ? 0.9 : 0.6),
+                width: 1.5,
+              ),
+              boxShadow: [
+                BoxShadow(
+                  color: color.withValues(alpha: accent ? 0.6 : 0.25),
+                  blurRadius: accent ? 16 : 10,
+                  spreadRadius: accent ? 1 : 0,
+                ),
+              ],
+            ),
+            child: Icon(
+              icon,
+              color: accent ? Colors.black : color,
+              size: 34,
             ),
           ),
         ),

@@ -1,0 +1,63 @@
+{
+  "default_language": "en-US",
+  "title": "Tetris Classic",
+  "short_description": "Classic block-stacking puzzle. Clear lines, beat your high score!",
+  "full_description": "Tetris Classic — the legendary block-stacking puzzle, faithful to the original, polished for today.\n\n★ AUTHENTIC TETRIS\nThe 7 classic tetrominoes. Rotate, slide, drop. Clear lines to score. Speed up as you level up. Survive as long as you can.\n\n★ MODES\n• Marathon — endless levels, classic Tetris\n• Sprint — clear 40 lines as fast as possible\n• Ultra — score as much as you can in 2 minutes\n• Zen — no game over, pure relaxation\n\n★ FEATURES\n• Hold piece, ghost piece, next-7 preview\n• T-spin and back-to-back bonuses\n• 8 achievements\n• Global leaderboard\n• Daily challenge\n• Multiple themes (classic, neon, minimal)\n• Plays offline\n\n★ COMPETITIVE\nClimb the leaderboard. Beat your friends' high scores via Play Games Services.\n\n★ FAIR ADS\nOptional. Remove forever with one purchase.",
+  "translations": {
+    "en-US": {
+      "title": "Tetris Classic",
+      "short_description": "Classic block-stacking puzzle. Clear lines, beat your high score!",
+      "full_description": "Tetris Classic — the legendary block-stacking puzzle, faithful to the original, polished for today.\n\n★ AUTHENTIC TETRIS\nThe 7 classic tetrominoes. Rotate, slide, drop. Clear lines to score. Speed up as you level up. Survive as long as you can.\n\n★ MODES\n• Marathon — endless levels, classic Tetris\n• Sprint — clear 40 lines as fast as possible\n• Ultra — score as much as you can in 2 minutes\n• Zen — no game over, pure relaxation\n\n★ FEATURES\n• Hold piece, ghost piece, next-7 preview\n• T-spin and back-to-back bonuses\n• 8 achievements\n• Global leaderboard\n• Daily challenge\n• Multiple themes (classic, neon, minimal)\n• Plays offline\n\n★ COMPETITIVE\nClimb the leaderboard. Beat your friends' high scores via Play Games Services.\n\n★ FAIR ADS\nOptional. Remove forever with one purchase."
+    },
+    "zh-CN": {
+      "title": "俄罗斯方块经典",
+      "short_description": "经典的积木拼图。清晰的线条，打破你的高分！",
+      "full_description": "俄罗斯方块经典版 — 传奇的积木拼图，忠实于原作，经过精心打磨，适合今天。\n\n★ 正宗的俄罗斯方块\n7 个经典的四格骨牌。旋转、滑动、下降。清晰的线条即可得分。当你升级时，速度会加快。尽可能长时间地生存。\n\n★ 模式\n• 马拉松——无尽的关卡，经典的俄罗斯方块\n• Sprint — 尽快清除 40 行\n• Ultra — 在 2 分钟内尽可能多得分\n• Zen——没有游戏结束，纯粹的放松\n\n★ 特点\n• 固定棋子、幽灵棋子、next-7 预览\n• T 型旋转和连续奖金\n• 8 项成就\n• 全球排行榜\n• 每日挑战\n• 多种主题（经典、霓虹、简约）\n• 离线播放\n\n★ 具有竞争力\n登上排行榜。通过 Play 游戏服务击败好友的高分。\n\n★ 公平的广告\n可选。一次购买即可永久删除。"
+    },
+    "es-419": {
+      "title": "Tetris clásico",
+      "short_description": "Rompecabezas clásico de apilamiento de bloques. ¡Líneas claras, supera tu puntua",
+      "full_description": "Tetris Classic: el legendario rompecabezas de apilamiento de bloques, fiel al original, pulido para hoy.\n\n★ TETRIS AUTÉNTICO\nLos 7 tetrominós clásicos. Girar, deslizar, soltar. Líneas claras para anotar. Acelera a medida que subes de nivel. Sobrevive tanto como puedas.\n\n★ MODOS\n• Marathon: niveles infinitos, Tetris clásico\n• Sprint: borra 40 líneas lo más rápido posible\n• Ultra: consigue todo lo que puedas en 2 minutos\n• Zen: no hay fin del juego, pura relajación\n\n★ CARACTERÍSTICAS\n• Pieza en espera, pieza fantasma, vista previa de los siguientes 7\n• T-spin y bonificaciones consecutivas\n• 8 logros\n• Tabla de clasificación mundial\n• Desafío diario\n• Múltiples temas (clásico, neón, minimalista)\n• Juega sin conexión\n\n★ COMPETITIVO\nSube en la clasificación. Supera las puntuaciones más altas de tus amigos a través de los servicios de Play Games.\n\n★ ANUNCIOS JUSTOS\nOpcional. Elimina para siempre con una sola compra."
+    },
+    "fr-FR": {
+      "title": "Tetris Classique",
+      "short_description": "Puzzle classique à empiler des blocs. Des lignes claires, battez votre meilleur",
+      "full_description": "Tetris Classic — le puzzle légendaire à empiler des blocs, fidèle à l'original, peaufiné pour aujourd'hui.\n\n★ TETRIS AUTHENTIQUE\nLes 7 tétrominos classiques. Faites pivoter, glissez, déposez. Des lignes claires pour marquer. Accélérez à mesure que vous montez de niveau. Survivez aussi longtemps que vous le pouvez.\n\n★ MODES\n• Marathon : niveaux sans fin, Tetris classique\n• Sprint : effacez 40 lignes aussi rapidement que possible\n• Ultra : marquez autant de points que possible en 2 minutes.\n• Zen : pas de jeu terminé, pure détente\n\n★ CARACTÉRISTIQUES\n• Pièce de maintien, pièce fantôme, aperçu des 7 suivants\n• T-spins et bonus consécutifs\n• 8 réalisations\n• Classement mondial\n• Défi quotidien\n• Thèmes multiples (classique, néon, minimal)\n• Joue hors ligne\n\n★ COMPÉTITIF\nGrimpez dans le classement. Battez les meilleurs scores de vos amis via les services de jeux Play.\n\n★ ANNONCES ÉQUITABLES\nFacultatif. Supprimez pour toujours avec un seul achat."
+    },
+    "de-DE": {
+      "title": "Tetris-Klassiker",
+      "short_description": "Klassisches Blockstapel-Puzzle. Klare Linien, schlagen Sie Ihren Highscore!",
+      "full_description": "Tetris Classic – das legendäre Block-Stapel-Puzzle, originalgetreu, für die heutige Zeit aufpoliert.\n\n★ AUTHENTISCHES TETRIS\nDie 7 klassischen Tetrominos. Drehen, gleiten, fallen lassen. Klare Linien, um zu punkten. Beschleunigen Sie, während Sie aufsteigen. Überlebe so lange du kannst.\n\n★ MODI\n• Marathon – endlose Levels, klassisches Tetris\n• Sprint – überwinde 40 Linien so schnell wie möglich\n• Ultra – Erziele in 2 Minuten so viel wie möglich\n• Zen – kein Game Over, pure Entspannung\n\n★ EIGENSCHAFTEN\n• Stück halten, Geisterstück, Nächste-7-Vorschau\n• T-Spin und aufeinanderfolgende Boni\n• 8 Erfolge\n• Globale Bestenliste\n• Tägliche Herausforderung\n• Mehrere Themen (klassisch, neon, minimalistisch)\n• Spielt offline\n\n★ WETTBEWERBSFÄHIG\nErklimme die Bestenliste. Übertreffen Sie die Highscores Ihrer Freunde über die Play Games Services.\n\n★ FAIRE ANZEIGEN\nOptional. Mit einem Kauf für immer entfernen."
+    },
+    "it-IT": {
+      "title": "Tetris Classico",
+      "short_description": "Classico puzzle impilabile. Linee chiare, batti il ​​tuo punteggio più alto!",
+      "full_description": "Tetris Classic: il leggendario puzzle impilabile a blocchi, fedele all'originale, rifinito per i giorni nostri.\n\n★ TETRIS AUTENTICO\nI 7 tetramini classici. Ruota, scorri, rilascia. Linee chiare per segnare. Accelera man mano che sali di livello. Sopravvivi il più a lungo possibile.\n\n★ MODALITÀ\n• Maratona: livelli infiniti, classico Tetris\n• Sprint: elimina 40 linee il più velocemente possibile\n• Ultra: ottieni più punti che puoi in 2 minuti\n• Zen: nessun gioco finito, puro relax\n\n★ CARATTERISTICHE\n• Tieni premuto il pezzo, il pezzo fantasma, l'anteprima del prossimo 7\n• Bonus T-spin e back-to-back\n• 8 risultati\n• Classifica globale\n• Sfida quotidiana\n• Temi multipli (classico, neon, minimale)\n• Riproduce offline\n\n★ COMPETITIVO\nScala la classifica. Batti i punteggi più alti dei tuoi amici tramite i servizi di giochi di Play.\n\n★ ANNUNCI FIERA\nFacoltativo. Rimuovi per sempre con un solo acquisto."
+    },
+    "pt-BR": {
+      "title": "Tetris Clássico",
+      "short_description": "Quebra-cabeça clássico de empilhamento de blocos. Linhas claras, supere sua pont",
+      "full_description": "Tetris Classic — o lendário quebra-cabeça de empilhamento de blocos, fiel ao original, aperfeiçoado para os dias de hoje.\n\n★ TETRIS AUTÊNTICO\nOs 7 tetrominós clássicos. Gire, deslize, solte. Linhas claras para marcar. Acelere conforme você sobe de nível. Sobreviva o máximo que puder.\n\n★ MODOS\n• Maratona — níveis infinitos, Tetris clássico\n• Sprint — limpe 40 linhas o mais rápido possível\n• Ultra — marque o máximo que puder em 2 minutos\n• Zen: jogo sem fim, puro relaxamento\n\n★ RECURSOS\n• Peça de espera, peça fantasma, visualização dos próximos 7\n• T-spin e bônus consecutivos\n• 8 conquistas\n• Tabela de classificação global\n• Desafio diário\n• Vários temas (clássico, neon, minimalista)\n• Joga off-line\n\n★ COMPETITIVO\nSuba na tabela de classificação. Supere as pontuações mais altas dos seus amigos através dos serviços relacionados a jogos do Google Play.\n\n★ ANÚNCIOS JUSTO\nOpcional. Remova para sempre com uma compra."
+    },
+    "ru-RU": {
+      "title": "Тетрис Классический",
+      "short_description": "Классическая головоломка, состоящая из блоков. Четкие линии, побейте свой рекорд",
+      "full_description": "Tetris Classic — легендарная головоломка из блоков, верная оригиналу и отполированная до сегодняшнего дня.\n\n★ АУТЕНТИЧНЫЙ ТЕТРИС\n7 классических тетромино. Вращайте, сдвигайте, опускайте. Четкие линии, чтобы забить. Ускоряйтесь по мере повышения уровня. Выживайте так долго, как сможете.\n\n★ РЕЖИМЫ\n• Марафон — бесконечные уровни, классический тетрис.\n• Спринт — очистите 40 линий как можно быстрее.\n• Ультра — наберите как можно больше очков за 2 минуты.\n• Дзен — игра не окончена, чистый релакс.\n\n★ ОСОБЕННОСТИ\n• Удержание фрагмента, фрагмент-призрак, предварительный просмотр следующей седьмой части.\n• Бонусы за Т-вращение и последовательные вращения.\n• 8 достижений\n• Глобальная таблица лидеров.\n• Ежедневное задание\n• Несколько тем (классическая, неоновая, минимальная).\n• Играет в автономном режиме\n\n★ КОНКУРЕНТНЫЙ\nПоднимитесь в таблице лидеров. Побейте рекорды своих друзей с помощью игровых сервисов Play.\n\n★ ЧЕСТНАЯ РЕКЛАМА\nНеобязательно. Удалить навсегда за одну покупку."
+    },
+    "ja-JP": {
+      "title": "テトリス クラシック",
+      "short_description": "古典的なブロック積みパズル。ラインをクリアして、ハイスコアを更新しましょう!",
+      "full_description": "テトリス クラシック — オリジナルに忠実でありながら、現代向けに洗練された伝説のブロック積みパズルです。\n\n★本格的なテトリス\n7 つの古典的なテトロミノ。回転、スライド、ドロップ。得点するための明確なライン。レベルが上がるとスピードが上がります。できるだけ長く生き残ってください。\n\n★モード\n• マラソン — 無限のレベル、クラシックなテトリス\n• スプリント — できるだけ早く 40 ラインをクリアします\n• ウルトラ — 2 分間でできるだけ多くのスコアを獲得します\n• 禅 – ゲームオーバーなし、純粋なリラクゼーション\n\n★特徴\n• ホールドピース、ゴーストピース、次の 7 プレビュー\n• Tスピンとバックトゥバックボーナス\n• 8つの実績\n• グローバルリーダーボード\n• 毎日のチャレンジ\n• 複数のテーマ (クラシック、ネオン、ミニマル)\n• オフラインで再生可能\n\n★ 競争力がある\nリーダーボードを駆け上がりましょう。 Play ゲーム サービスを通じて友達のハイスコアを破ってください。\n\n★ 公正な広告\nオプション。一度購入すれば永久に削除できます。"
+    },
+    "ko-KR": {
+      "title": "테트리스 클래식",
+      "short_description": "클래식 블록 쌓기 퍼즐. 선을 지우고 최고 점수를 깨보세요!",
+      "full_description": "Tetris Classic — 원작에 충실하고 오늘날에 맞게 다듬어진 전설적인 블록 쌓기 퍼즐입니다.\n\n★ 정통 테트리스\n7개의 클래식 테트로미노. 회전, 슬라이드, 드롭. 점수를 매기려면 라인을 지우세요. 레벨을 올리면 속도가 빨라집니다. 최대한 오래 살아남으세요.\n\n★ 모드\n• 마라톤 — 끝없는 레벨, 클래식 테트리스\n• 질주 — 가능한 한 빨리 40개의 라인을 클리어하세요\n• Ultra — 2분 안에 최대한 많은 점수를 획득하세요\n• Zen — 게임이 끝나지 않고 순수한 휴식을 선사합니다.\n\n★ 특징\n• 홀드피스, 고스트피스, 넥스트-7 미리보기\n• T-스핀 및 연속 보너스\n• 8개의 업적\n• 글로벌 리더보드\n• 일일 도전\n• 다양한 테마(클래식, 네온, 미니멀)\n• 오프라인으로 재생\n\n★ 경쟁\n리더보드에 오르세요. Play 게임 서비스를 통해 친구의 최고 점수를 깨보세요.\n\n★ 공정한 광고\n선택사항. 한 번의 구매로 영원히 제거됩니다."
+    },
+    "ar": {
+      "title": "تتريس كلاسيك",
+      "short_description": "لغز تكديس الكتل الكلاسيكي. خطوط واضحة، فاز على درجاتك عالية!",
+      "full_description": "تتريس كلاسيك - أحجية تكديس الكتل الأسطورية، المخلصة للأصل، مصقولة لعصرنا هذا.\n\n★ تتريس أصيلة\n7 رباعيات كلاسيكية. تدوير، الشريحة، والإسقاط. خطوط واضحة للتسجيل. تسريع كما كنت في المستوى الأعلى. البقاء على قيد الحياة طالما يمكنك.\n\n★ وسائط\n• الماراثون — مستويات لا نهاية لها، لعبة تتريس الكلاسيكية\n• العدو السريع — امسح 40 خطًا في أسرع وقت ممكن\n• Ultra — سجل أكبر قدر ممكن من الأهداف في دقيقتين\n• Zen — لم تنتهي اللعبة، بل استرخاء تام\n\n★ المميزات\n• عقد قطعة، قطعة شبح، القادم 7 المعاينة\n• مكافآت T-spin وback-to-back\n• 8 إنجازات\n• المتصدرين العالمية\n• التحدي اليومي\n• موضوعات متعددة (كلاسيكية، نيون، بسيطة)\n• يلعب حاليا\n\n★ تنافسية\nتسلق المتصدرين. تغلب على أعلى النتائج التي حققها أصدقاؤك عبر Play Games Services.\n\n★ إعلانات عادلة\nاختياري. إزالة إلى الأبد مع عملية شراء واحدة."
+    }
+  }
+}

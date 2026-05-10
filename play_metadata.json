@@ -1,0 +1,143 @@
+{
+  "package_name": "ro.summersmile.tetrisclassic",
+  "apple_app_id": "6767253852",
+  "display_name": "Tetris Classic",
+  "leaderboards": [
+    {
+      "id": "tetris_classic_high_score",
+      "name": "High Score",
+      "score_format": "INTEGER",
+      "ordering": "LARGER_IS_BETTER",
+      "icon": "D:/tetris_classic/game_center_icons/high_score.png"
+    }
+  ],
+  "achievements": [
+    {
+      "id": "first_line",
+      "name": "First Line",
+      "points": 5,
+      "description": "Clear your first line.",
+      "earned_description": "You cleared your first line!",
+      "type": "STANDARD",
+      "initial_state": "REVEALED",
+      "icon": "D:/tetris_classic/game_center_icons/first_line.png"
+    },
+    {
+      "id": "score_1k",
+      "name": "Score 1,000",
+      "points": 25,
+      "description": "Score 1,000 points in a single run.",
+      "earned_description": "You scored 1,000 points.",
+      "type": "STANDARD",
+      "initial_state": "REVEALED",
+      "icon": "D:/tetris_classic/game_center_icons/score_1k.png"
+    },
+    {
+      "id": "score_5k",
+      "name": "Score 5,000",
+      "points": 75,
+      "description": "Score 5,000 points in a single run.",
+      "earned_description": "You scored 5,000 points.",
+      "type": "STANDARD",
+      "initial_state": "REVEALED",
+      "icon": "D:/tetris_classic/game_center_icons/score_5k.png"
+    },
+    {
+      "id": "score_10k",
+      "name": "Score 10,000",
+      "points": 100,
+      "description": "Score 10,000 points in a single run.",
+      "earned_description": "You scored 10,000 points.",
+      "type": "STANDARD",
+      "initial_state": "REVEALED",
+      "icon": "D:/tetris_classic/game_center_icons/score_10k.png"
+    },
+    {
+      "id": "score_25k",
+      "name": "Score 25,000",
+      "points": 200,
+      "description": "Score 25,000 points in a single run.",
+      "earned_description": "You scored 25,000 points!",
+      "type": "STANDARD",
+      "initial_state": "REVEALED",
+      "icon": "D:/tetris_classic/game_center_icons/score_25k.png"
+    },
+    {
+      "id": "tetris_4_lines",
+      "name": "Tetris! (4 lines at once)",
+      "points": 100,
+      "description": "Clear 4 lines simultaneously (Tetris).",
+      "earned_description": "You cleared 4 lines at once!",
+      "type": "STANDARD",
+      "initial_state": "REVEALED",
+      "icon": "D:/tetris_classic/game_center_icons/tetris_4_lines.png"
+    },
+    {
+      "id": "level_10",
+      "name": "Level 10",
+      "points": 150,
+      "description": "Reach level 10.",
+      "earned_description": "You reached level 10.",
+      "type": "STANDARD",
+      "initial_state": "REVEALED",
+      "icon": "D:/tetris_classic/game_center_icons/level_10.png"
+    },
+    {
+      "id": "streak_7",
+      "name": "7-Day Streak",
+      "points": 100,
+      "description": "Play Tetris for 7 days straight.",
+      "earned_description": "You played for 7 days in a row.",
+      "type": "STANDARD",
+      "initial_state": "REVEALED",
+      "icon": "D:/tetris_classic/game_center_icons/streak_7.png"
+    }
+  ],
+  "iaps": [
+    {
+      "sku": "remove_ads",
+      "type": "managed",
+      "consumable": false,
+      "name": "Remove Ads",
+      "description": "Remove all ads from the game forever.",
+      "price_micros": 2990000,
+      "currency": "USD"
+    },
+    {
+      "sku": "diamonds_100",
+      "type": "managed",
+      "consumable": true,
+      "name": "100 Diamonds",
+      "description": "Get 100 diamonds to use in-game.",
+      "price_micros": 990000,
+      "currency": "USD"
+    },
+    {
+      "sku": "diamonds_500",
+      "type": "managed",
+      "consumable": true,
+      "name": "500 Diamonds + 50 Bonus",
+      "description": "Get 500 diamonds plus a 50 diamond bonus.",
+      "price_micros": 4990000,
+      "currency": "USD"
+    },
+    {
+      "sku": "diamonds_1200",
+      "type": "managed",
+      "consumable": true,
+      "name": "1200 Diamonds + 200 Bonus",
+      "description": "Get 1200 diamonds plus a 200 diamond bonus.",
+      "price_micros": 9990000,
+      "currency": "USD"
+    },
+    {
+      "sku": "diamonds_3000",
+      "type": "managed",
+      "consumable": true,
+      "name": "3000 Diamonds + 800 Bonus",
+      "description": "Get 3000 diamonds plus a 800 diamond bonus.",
+      "price_micros": 19990000,
+      "currency": "USD"
+    }
+  ]
+}
