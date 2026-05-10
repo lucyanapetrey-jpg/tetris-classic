@@ -250,7 +250,7 @@ class _GameScreenState extends State<GameScreen> with TickerProviderStateMixin {
             shaderCallback: (r) => const LinearGradient(
               colors: [Color(0xFF00E5FF), Color(0xFFAB47BC)],
             ).createShader(r),
-            child: const Text('TETRI SMILE',
+            child: const Text('TETRIS SMILE',
                 style: TextStyle(
                     fontSize: 22,
                     fontWeight: FontWeight.w900,
