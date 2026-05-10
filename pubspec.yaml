@@ -1,7 +1,7 @@
 name: tetris_classic
 description: "TetriSmile — Tetris clasic cu tetrominoes, level system si line clearing"
 publish_to: 'none'
-version: 2.1.0+13
+version: 2.2.0+14
 environment:
   sdk: ^3.11.1
 
