@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import '../i18n/app_strings.dart';
 import '../services/rewards_service.dart';
 
 class DailyRewardScreen extends StatefulWidget {
@@ -27,6 +28,7 @@ class _DailyRewardScreenState extends State<DailyRewardScreen>
 
   @override
   Widget build(BuildContext context) {
+    final s = AppStrings.of(context);
     return Scaffold(
       backgroundColor: const Color(0xFF0D0D14),
       body: SafeArea(
@@ -52,15 +54,15 @@ class _DailyRewardScreenState extends State<DailyRewardScreen>
                   shaderCallback: (r) => const LinearGradient(
                     colors: [Color(0xFF00E5FF), Color(0xFFFFD740)],
                   ).createShader(r),
-                  child: const Text('BONUS ZILNIC',
-                      style: TextStyle(
+                  child: Text(s.dailyBonus,
+                      style: const TextStyle(
                           fontSize: 28,
                           fontWeight: FontWeight.w900,
                           color: Colors.white,
                           letterSpacing: 4)),
                 ),
                 const SizedBox(height: 8),
-                Text('Ziua ${widget.day} / 7',
+                Text(s.dayOf7.replaceAll('{n}', '${widget.day}'),
                     style: const TextStyle(color: Colors.white60, fontSize: 16)),
                 const SizedBox(height: 32),
                 Container(
@@ -137,7 +139,7 @@ class _DailyRewardScreenState extends State<DailyRewardScreen>
                     textStyle: const TextStyle(fontSize: 20, fontWeight: FontWeight.w900),
                   ),
                   onPressed: () => Navigator.pop(context),
-                  child: const Text('PRIMEȘTE'),
+                  child: Text(s.claim),
                 ),
               ],
             ),

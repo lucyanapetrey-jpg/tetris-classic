@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:in_app_purchase/in_app_purchase.dart';
+import '../i18n/app_strings.dart';
 import '../services/purchase_service.dart';
 
 class ShopDialog extends StatefulWidget {
@@ -19,7 +20,7 @@ class _ShopDialogState extends State<ShopDialog> {
       setState(() => _busy = false);
       if (!ok) {
         ScaffoldMessenger.of(context).showSnackBar(
-          const SnackBar(content: Text('Magazinul nu este disponibil acum.')),
+          SnackBar(content: Text(AppStrings.of(context).shopUnavailableMsg)),
         );
       }
     }
@@ -27,6 +28,7 @@ class _ShopDialogState extends State<ShopDialog> {
 
   @override
   Widget build(BuildContext context) {
+    final s = AppStrings.of(context);
     final svc = PurchaseService.instance;
     final noAdsProduct = svc.productFor(PurchaseService.noAdsId);
     return Dialog(
@@ -42,9 +44,9 @@ class _ShopDialogState extends State<ShopDialog> {
             children: [
               Row(
                 children: [
-                  const Expanded(
-                    child: Text('💎 Magazin',
-                        style: TextStyle(
+                  Expanded(
+                    child: Text('💎 ${s.shop}',
+                        style: const TextStyle(
                             color: Colors.white, fontSize: 22, fontWeight: FontWeight.w900)),
                   ),
                   IconButton(
@@ -73,9 +75,9 @@ class _ShopDialogState extends State<ShopDialog> {
                           Icon(noAds ? Icons.check_circle : Icons.block,
                               color: Colors.white, size: 28),
                           const SizedBox(width: 10),
-                          const Expanded(
-                            child: Text('Fără reclame',
-                                style: TextStyle(
+                          Expanded(
+                            child: Text(s.noAds,
+                                style: const TextStyle(
                                     color: Colors.white,
                                     fontSize: 18,
                                     fontWeight: FontWeight.w900)),
@@ -110,10 +112,10 @@ class _ShopDialogState extends State<ShopDialog> {
                 ),
               ),
               const SizedBox(height: 18),
-              const Padding(
-                padding: EdgeInsets.symmetric(horizontal: 4),
-                child: Text('PACHETE DIAMANTE',
-                    style: TextStyle(
+              Padding(
+                padding: const EdgeInsets.symmetric(horizontal: 4),
+                child: Text(s.diamondPacks,
+                    style: const TextStyle(
                         color: Colors.white70,
                         fontSize: 13,
                         fontWeight: FontWeight.w800,
@@ -121,15 +123,15 @@ class _ShopDialogState extends State<ShopDialog> {
               ),
               const SizedBox(height: 8),
               if (!svc.available)
-                const Padding(
-                  padding: EdgeInsets.all(12),
+                Padding(
+                  padding: const EdgeInsets.all(12),
                   child: Center(
-                    child: Text('Magazin indisponibil',
-                        style: TextStyle(color: Colors.white60)),
+                    child: Text(s.shopUnavailable,
+                        style: const TextStyle(color: Colors.white60)),
                   ),
                 ),
               for (final pack in PurchaseService.diamondPacks)
-                _diamondTile(pack, svc.productFor(pack.id)),
+                _diamondTile(context, pack, svc.productFor(pack.id)),
             ],
           ),
         ),
@@ -137,7 +139,8 @@ class _ShopDialogState extends State<ShopDialog> {
     );
   }
 
-  Widget _diamondTile(DiamondPack pack, ProductDetails? product) {
+  Widget _diamondTile(BuildContext context, DiamondPack pack, ProductDetails? product) {
+    final s = AppStrings.of(context);
     final available = product != null && PurchaseService.instance.available;
     return Padding(
       padding: const EdgeInsets.only(bottom: 10),
@@ -166,11 +169,11 @@ class _ShopDialogState extends State<ShopDialog> {
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  Text('${pack.diamonds} diamante',
+                  Text('${pack.diamonds} ${s.diamonds}',
                       style: const TextStyle(
                           color: Colors.white, fontSize: 16, fontWeight: FontWeight.w900)),
                   if (pack.bonus > 0)
-                    Text('+ ${pack.bonus} BONUS',
+                    Text('+ ${pack.bonus} ${s.bonusUpper}',
                         style: const TextStyle(
                             color: Color(0xFFFFCA28), fontSize: 11, fontWeight: FontWeight.w800)),
                 ],

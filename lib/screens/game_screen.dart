@@ -3,6 +3,7 @@ import 'dart:math';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import '../i18n/app_strings.dart';
 import '../game/board.dart';
 import '../game/tetromino.dart';
 import '../services/ad_service.dart';
@@ -273,7 +274,7 @@ class _GameScreenState extends State<GameScreen> with TickerProviderStateMixin {
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceAround,
         children: [
-          _stat('Score', '$_score', const Color(0xFF00E5FF)),
+          _stat(AppStrings.of(context).score, '$_score', const Color(0xFF00E5FF)),
           _stat('Level', '$_level', const Color(0xFFFFD740)),
           _stat('Lines', '$_lines', const Color(0xFF66BB6A)),
           _stat('Combo', 'x$_combo', _combo > 1 ? const Color(0xFFE91E63) : Colors.white60),
@@ -411,14 +412,14 @@ class _GameScreenState extends State<GameScreen> with TickerProviderStateMixin {
         child: Column(
           mainAxisSize: MainAxisSize.min,
           children: [
-            const Text('GAME OVER',
-                style: TextStyle(
+            Text(AppStrings.of(context).gameOver,
+                style: const TextStyle(
                     color: Color(0xFFEF5350),
                     fontSize: 36,
                     fontWeight: FontWeight.w900,
                     letterSpacing: 4)),
             const SizedBox(height: 8),
-            Text('Score: $_score',
+            Text('${AppStrings.of(context).score}: $_score',
                 style: const TextStyle(
                     color: Colors.white, fontSize: 22, fontWeight: FontWeight.w700)),
             const SizedBox(height: 24),
@@ -441,7 +442,7 @@ class _GameScreenState extends State<GameScreen> with TickerProviderStateMixin {
                 });
                 _startTick();
               },
-              child: const Text('Din nou'),
+              child: Text(AppStrings.of(context).again),
             ),
           ],
         ),

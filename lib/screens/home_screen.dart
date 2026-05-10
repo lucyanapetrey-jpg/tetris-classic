@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import '../i18n/app_strings.dart';
 import '../services/rewards_service.dart';
 import 'daily_reward_screen.dart';
 import 'game_screen.dart';
@@ -45,6 +46,7 @@ class _HomeScreenState extends State<HomeScreen> {
 
   @override
   Widget build(BuildContext context) {
+    final s = AppStrings.of(context);
     return Scaffold(
       body: Container(
         decoration: const BoxDecoration(
@@ -126,7 +128,7 @@ class _HomeScreenState extends State<HomeScreen> {
                   ),
                   child: Column(
                     children: [
-                      const Text('Top Score', style: TextStyle(color: Colors.white54)),
+                      Text(s.topScore, style: const TextStyle(color: Colors.white54)),
                       const SizedBox(height: 4),
                       Text('$_highScore',
                           style: const TextStyle(
@@ -154,7 +156,7 @@ class _HomeScreenState extends State<HomeScreen> {
                     );
                     _load();
                   },
-                  child: const Text('JOACĂ'),
+                  child: Text(s.play),
                 ),
                 const SizedBox(height: 60),
               ],
