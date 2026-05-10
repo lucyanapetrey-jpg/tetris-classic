@@ -91,22 +91,27 @@ class _HomeScreenState extends State<HomeScreen> {
                     'TETRIS',
                     textAlign: TextAlign.center,
                     style: TextStyle(
-                      fontSize: 72,
+                      fontSize: 64,
                       fontWeight: FontWeight.w900,
                       color: Colors.white,
-                      letterSpacing: 8,
+                      letterSpacing: 6,
+                      height: 0.95,
                     ),
                   ),
                 ),
-                const SizedBox(height: 8),
-                const Center(
-                  child: Text(
-                    'CLASSIC',
+                ShaderMask(
+                  shaderCallback: (r) => const LinearGradient(
+                    colors: [Color(0xFFFF4081), Color(0xFFAB47BC), Color(0xFF00E5FF)],
+                  ).createShader(r),
+                  child: const Text(
+                    'SMILE',
+                    textAlign: TextAlign.center,
                     style: TextStyle(
-                      color: Colors.white54,
-                      fontSize: 16,
-                      letterSpacing: 8,
-                      fontWeight: FontWeight.w300,
+                      fontSize: 64,
+                      fontWeight: FontWeight.w900,
+                      color: Colors.white,
+                      letterSpacing: 6,
+                      height: 0.95,
                     ),
                   ),
                 ),
