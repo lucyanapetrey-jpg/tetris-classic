@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import '../i18n/app_strings.dart';
 import '../services/rewards_service.dart';
+import '../widgets/settings_dialog.dart';
 import 'daily_reward_screen.dart';
 import 'game_screen.dart';
 
@@ -63,8 +64,16 @@ class _HomeScreenState extends State<HomeScreen> {
               crossAxisAlignment: CrossAxisAlignment.stretch,
               children: [
                 Row(
-                  mainAxisAlignment: MainAxisAlignment.end,
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
+                    IconButton(
+                      icon: const Icon(Icons.settings, color: Color(0xFF00E5FF), size: 28),
+                      onPressed: () => showDialog(
+                        context: context,
+                        builder: (_) => const SettingsDialog(),
+                      ),
+                      tooltip: 'Settings',
+                    ),
                     Container(
                       padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 6),
                       decoration: BoxDecoration(
