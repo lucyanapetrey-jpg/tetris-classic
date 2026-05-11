@@ -31,7 +31,7 @@ class GameScreen extends StatefulWidget {
 }
 
 class _GameScreenState extends State<GameScreen> with TickerProviderStateMixin {
-  final TetrisBoard _board = TetrisBoard();
+  final BlockBoard _board = BlockBoard();
   final _rewards = RewardsService();
   Timer? _timer;
   Timer? _animTimer;
@@ -317,7 +317,7 @@ class _GameScreenState extends State<GameScreen> with TickerProviderStateMixin {
         child: Padding(
           padding: const EdgeInsets.all(8),
           child: AspectRatio(
-            aspectRatio: TetrisBoard.cols / TetrisBoard.rows,
+            aspectRatio: BlockBoard.cols / BlockBoard.rows,
             child: Container(
               decoration: BoxDecoration(
                 color: Colors.black.withValues(alpha: 0.6),
@@ -327,16 +327,16 @@ class _GameScreenState extends State<GameScreen> with TickerProviderStateMixin {
                 ],
               ),
               child: LayoutBuilder(builder: (c, cons) {
-              final cellW = cons.maxWidth / TetrisBoard.cols;
-              final cellH = cons.maxHeight / TetrisBoard.rows;
+              final cellW = cons.maxWidth / BlockBoard.cols;
+              final cellH = cons.maxHeight / BlockBoard.rows;
               return Stack(
                 children: [
                   CustomPaint(
                     size: Size(cons.maxWidth, cons.maxHeight),
                     painter: _GridPainter(),
                   ),
-                  for (var r = 0; r < TetrisBoard.rows; r++)
-                    for (var c2 = 0; c2 < TetrisBoard.cols; c2++)
+                  for (var r = 0; r < BlockBoard.rows; r++)
+                    for (var c2 = 0; c2 < BlockBoard.cols; c2++)
                       if (_board.grid[r][c2] != null)
                         Positioned(
                           left: c2 * cellW,
@@ -608,12 +608,12 @@ class _GridPainter extends CustomPainter {
     final paint = Paint()
       ..color = Colors.white.withValues(alpha: 0.04)
       ..strokeWidth = 0.5;
-    final cellW = size.width / TetrisBoard.cols;
-    final cellH = size.height / TetrisBoard.rows;
-    for (var i = 0; i <= TetrisBoard.cols; i++) {
+    final cellW = size.width / BlockBoard.cols;
+    final cellH = size.height / BlockBoard.rows;
+    for (var i = 0; i <= BlockBoard.cols; i++) {
       canvas.drawLine(Offset(i * cellW, 0), Offset(i * cellW, size.height), paint);
     }
-    for (var i = 0; i <= TetrisBoard.rows; i++) {
+    for (var i = 0; i <= BlockBoard.rows; i++) {
       canvas.drawLine(Offset(0, i * cellH), Offset(size.width, i * cellH), paint);
     }
   }

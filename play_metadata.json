@@ -1,7 +1,7 @@
 {
   "package_name": "ro.summersmile.tetrisclassic",
   "apple_app_id": "6767253852",
-  "display_name": "Tetris Classic",
+  "display_name": "Block Smile",
   "leaderboards": [
     {
       "id": "tetris_classic_high_score",
@@ -63,14 +63,14 @@
       "icon": "D:/tetris_classic/game_center_icons/score_25k.png"
     },
     {
-      "id": "tetris_4_lines",
-      "name": "Tetris! (4 lines at once)",
+      "id": "quad_clear",
+      "name": "Quad Clear! (4 lines at once)",
       "points": 100,
-      "description": "Clear 4 lines simultaneously (Tetris).",
+      "description": "Clear 4 lines simultaneously.",
       "earned_description": "You cleared 4 lines at once!",
       "type": "STANDARD",
       "initial_state": "REVEALED",
-      "icon": "D:/tetris_classic/game_center_icons/tetris_4_lines.png"
+      "icon": "D:/tetris_classic/game_center_icons/quad_clear.png"
     },
     {
       "id": "level_10",
@@ -86,7 +86,7 @@
       "id": "streak_7",
       "name": "7-Day Streak",
       "points": 100,
-      "description": "Play Tetris for 7 days straight.",
+      "description": "Play for 7 days straight.",
       "earned_description": "You played for 7 days in a row.",
       "type": "STANDARD",
       "initial_state": "REVEALED",

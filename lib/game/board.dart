@@ -2,7 +2,7 @@ import 'dart:math';
 import 'package:flutter/material.dart';
 import 'tetromino.dart';
 
-class TetrisBoard {
+class BlockBoard {
   static const int cols = 10;
   static const int rows = 20;
 
