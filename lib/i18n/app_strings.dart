@@ -18,6 +18,10 @@ class AppStrings {
   final String score;
   final String musicOn;
   final String musicOff;
+  final String continueGame;
+  final String powerClearRows;
+  final String notEnoughDiamonds;
+  final String getDiamonds;
 
   const AppStrings({
     required this.play,
@@ -37,6 +41,10 @@ class AppStrings {
     required this.score,
     required this.musicOn,
     required this.musicOff,
+    required this.continueGame,
+    required this.powerClearRows,
+    required this.notEnoughDiamonds,
+    required this.getDiamonds,
   });
 
   static AppStrings of(BuildContext context) {
@@ -69,6 +77,10 @@ class AppStrings {
       score: 'Score',
       musicOn: 'Music: On',
       musicOff: 'Music: Off',
+      continueGame: 'CONTINUE',
+      powerClearRows: 'Clear rows',
+      notEnoughDiamonds: 'Not enough diamonds',
+      getDiamonds: 'Get diamonds',
     ),
     'zh': AppStrings(
       play: '开始',
@@ -88,6 +100,10 @@ class AppStrings {
       score: '分数',
       musicOn: '音乐：开',
       musicOff: '音乐：关',
+      continueGame: '继续',
+      powerClearRows: '清除行',
+      notEnoughDiamonds: '钻石不足',
+      getDiamonds: '获取钻石',
     ),
     'es': AppStrings(
       play: 'JUGAR',
@@ -107,6 +123,10 @@ class AppStrings {
       score: 'Puntuación',
       musicOn: 'Música: Activada',
       musicOff: 'Música: Desactivada',
+      continueGame: 'CONTINUAR',
+      powerClearRows: 'Limpiar filas',
+      notEnoughDiamonds: 'Diamantes insuficientes',
+      getDiamonds: 'Conseguir diamantes',
     ),
     'hi': AppStrings(
       play: 'खेलें',
@@ -126,6 +146,10 @@ class AppStrings {
       score: 'स्कोर',
       musicOn: 'संगीत: चालू',
       musicOff: 'संगीत: बंद',
+      continueGame: 'जारी रखें',
+      powerClearRows: 'पंक्तियाँ साफ़ करें',
+      notEnoughDiamonds: 'पर्याप्त डायमंड नहीं',
+      getDiamonds: 'डायमंड लें',
     ),
     'ar': AppStrings(
       play: 'العب',
@@ -145,6 +169,10 @@ class AppStrings {
       score: 'النتيجة',
       musicOn: 'الموسيقى: تشغيل',
       musicOff: 'الموسيقى: إيقاف',
+      continueGame: 'متابعة',
+      powerClearRows: 'مسح الصفوف',
+      notEnoughDiamonds: 'ألماس غير كافٍ',
+      getDiamonds: 'احصل على ألماس',
     ),
     'pt': AppStrings(
       play: 'JOGAR',
@@ -164,6 +192,10 @@ class AppStrings {
       score: 'Pontuação',
       musicOn: 'Música: Ligada',
       musicOff: 'Música: Desligada',
+      continueGame: 'CONTINUAR',
+      powerClearRows: 'Limpar linhas',
+      notEnoughDiamonds: 'Diamantes insuficientes',
+      getDiamonds: 'Obter diamantes',
     ),
     'ru': AppStrings(
       play: 'ИГРАТЬ',
@@ -183,6 +215,10 @@ class AppStrings {
       score: 'Счёт',
       musicOn: 'Музыка: Вкл.',
       musicOff: 'Музыка: Выкл.',
+      continueGame: 'ПРОДОЛЖИТЬ',
+      powerClearRows: 'Очистить ряды',
+      notEnoughDiamonds: 'Недостаточно алмазов',
+      getDiamonds: 'Получить алмазы',
     ),
     'ja': AppStrings(
       play: 'プレイ',
@@ -202,6 +238,10 @@ class AppStrings {
       score: 'スコア',
       musicOn: '音楽：オン',
       musicOff: '音楽：オフ',
+      continueGame: 'つづける',
+      powerClearRows: '列を消す',
+      notEnoughDiamonds: 'ダイヤモンド不足',
+      getDiamonds: 'ダイヤモンド入手',
     ),
     'de': AppStrings(
       play: 'SPIELEN',
@@ -221,6 +261,10 @@ class AppStrings {
       score: 'Punkte',
       musicOn: 'Musik: An',
       musicOff: 'Musik: Aus',
+      continueGame: 'WEITER',
+      powerClearRows: 'Reihen löschen',
+      notEnoughDiamonds: 'Nicht genug Diamanten',
+      getDiamonds: 'Diamanten holen',
     ),
     'fr': AppStrings(
       play: 'JOUER',
@@ -240,6 +284,10 @@ class AppStrings {
       score: 'Score',
       musicOn: 'Musique : activée',
       musicOff: 'Musique : désactivée',
+      continueGame: 'CONTINUER',
+      powerClearRows: 'Effacer des lignes',
+      notEnoughDiamonds: 'Pas assez de diamants',
+      getDiamonds: 'Obtenir des diamants',
     ),
     'ro': AppStrings(
       play: 'JOACĂ',
@@ -259,6 +307,10 @@ class AppStrings {
       score: 'Scor',
       musicOn: 'Muzică: Pornită',
       musicOff: 'Muzică: Oprită',
+      continueGame: 'CONTINUĂ',
+      powerClearRows: 'Curăță rânduri',
+      notEnoughDiamonds: 'Diamante insuficiente',
+      getDiamonds: 'Ia diamante',
     ),
   };
 }

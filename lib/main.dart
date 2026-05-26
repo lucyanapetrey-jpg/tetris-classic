@@ -1,5 +1,7 @@
 import 'dart:io' show Platform;
 import 'package:flutter/material.dart';
+import 'services/notification_service.dart';
+import 'services/review_service.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:app_tracking_transparency/app_tracking_transparency.dart';
 import 'i18n/app_strings.dart';
@@ -27,6 +29,8 @@ void main() async {
   await PurchaseService.instance.initialize();
   AdService().init();
   AudioService().init();
+  ReviewService.instance.registerLaunch();
+  NotificationService.instance.scheduleDailyReminder(title: 'Block Smile', body: 'Stivuiește blocuri și bate-ți recordul! 🧱');
   runApp(const BlockSmileApp());
 }
 

@@ -1,30 +1,32 @@
-// This is a basic Flutter widget test.
-//
-// To perform an interaction with a widget in your test, use the WidgetTester
-// utility in the flutter_test package. For example, you can send tap and scroll
-// gestures. You can also use WidgetTester to find child widgets in the widget
-// tree, read text, and verify that the values of widget properties are correct.
-
+// Teste de logică pură pentru tabla de joc (fără plugin-uri / UI).
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
-
-import 'package:tetris_classic/main.dart';
+import 'package:tetris_classic/game/board.dart';
 
 void main() {
-  testWidgets('Counter increments smoke test', (WidgetTester tester) async {
-    // Build our app and trigger a frame.
-    await tester.pumpWidget(const MyApp());
+  test('start() umple tabla cu o piesă curentă, fără game over', () {
+    final b = BlockBoard();
+    b.start();
+    expect(b.current, isNotNull);
+    expect(b.next, isNotNull);
+  });
 
-    // Verify that our counter starts at 0.
-    expect(find.text('0'), findsOneWidget);
-    expect(find.text('1'), findsNothing);
+  test('clearBottomRows golește rândurile de jos', () {
+    final b = BlockBoard();
+    b.start();
+    for (var c = 0; c < BlockBoard.cols; c++) {
+      b.grid[BlockBoard.rows - 1][c] = const Color(0xFF00E5FF);
+    }
+    final cleared = b.clearBottomRows(2);
+    expect(cleared, 2);
+    expect(b.grid[BlockBoard.rows - 1].every((cell) => cell == null), isTrue);
+  });
 
-    // Tap the '+' icon and trigger a frame.
-    await tester.tap(find.byIcon(Icons.add));
-    await tester.pump();
-
-    // Verify that our counter has incremented.
-    expect(find.text('0'), findsNothing);
-    expect(find.text('1'), findsOneWidget);
+  test('clearTopRows eliberează zona de spawn', () {
+    final b = BlockBoard();
+    b.start();
+    b.grid[0][0] = const Color(0xFFFF4081);
+    b.clearTopRows(3);
+    expect(b.grid[0][0], isNull);
   });
 }

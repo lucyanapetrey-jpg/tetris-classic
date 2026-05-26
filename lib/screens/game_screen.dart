@@ -5,9 +5,11 @@ import 'package:flutter/services.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import '../i18n/app_strings.dart';
 import '../game/board.dart';
-import '../game/tetromino.dart';
 import '../services/ad_service.dart';
+import '../services/diamond_service.dart';
 import '../services/rewards_service.dart';
+import '../widgets/bottom_banner.dart';
+import '../widgets/shop_dialog.dart';
 
 class Particle {
   double x, y, vx, vy, life, size;
@@ -40,8 +42,14 @@ class _GameScreenState extends State<GameScreen> with TickerProviderStateMixin {
   int _lines = 0;
   int _combo = 0;
   int _blocksPlaced = 0;
-  static const int _adEveryNBlocks = 20;
+  static const int _adEveryNBlocks = 15;
+  // Economia pe diamante (sink pentru valuta cumpărată cu bani).
+  static const int _reviveCost = 50;
+  static const int _powerClearCost = 25;
+  static const int _reviveTopRows = 12;
+  static const int _powerClearBottomRows = 4;
   bool _over = false;
+  bool _revivedOnce = false;
   bool _paused = false;
   final List<Particle> _particles = [];
   final List<ScorePopup> _popups = [];
@@ -103,19 +111,34 @@ class _GameScreenState extends State<GameScreen> with TickerProviderStateMixin {
         _addScore(lines, false);
         _onBlockLocked();
         if (!_board.spawn()) {
-          _over = true;
-          _timer?.cancel();
-          _saveHighScore();
+          _endGame();
         }
       }
     });
   }
 
+  void _endGame() {
+    _over = true;
+    _timer?.cancel();
+    _saveHighScore();
+  }
+
   void _onBlockLocked() {
     _blocksPlaced++;
     if (_blocksPlaced % _adEveryNBlocks == 0) {
-      AdService().showInterstitial();
+      _showInterstitialPaused();
     }
+  }
+
+  /// Afișează un interstitial cu jocul COMPLET pus pe pauză (timer cădere
+  /// piese oprit) cât timp reclama e pe ecran. Fără asta, piesele continuau
+  /// să cadă peste reclamă (bug raportat de user).
+  Future<void> _showInterstitialPaused() async {
+    final wasPaused = _paused;
+    setState(() => _paused = true);
+    await AdService().showInterstitial();
+    if (!mounted) return;
+    if (!wasPaused) setState(() => _paused = false);
   }
 
   void _addScore(int lines, bool isHardDrop) {
@@ -133,7 +156,7 @@ class _GameScreenState extends State<GameScreen> with TickerProviderStateMixin {
       String label;
       Color popupColor = const Color(0xFF00E5FF);
       if (lines == 4) {
-        label = 'TETRIS! +$total';
+        label = 'QUAD! +$total';
         popupColor = const Color(0xFFFFD740);
         _rewards.addCoins(20);
       } else if (lines == 3) {
@@ -195,10 +218,47 @@ class _GameScreenState extends State<GameScreen> with TickerProviderStateMixin {
       _addScore(lines, true);
       _onBlockLocked();
       if (!_board.spawn()) {
-        _over = true;
-        _timer?.cancel();
-        _saveHighScore();
+        _endGame();
       }
+    });
+    HapticFeedback.mediumImpact();
+  }
+
+  Future<void> _openShop() async {
+    final wasPaused = _paused;
+    setState(() => _paused = true);
+    await showDialog(context: context, builder: (_) => const ShopDialog());
+    if (mounted && !_over) setState(() => _paused = wasPaused);
+  }
+
+  /// Revive contra diamante: eliberează zona de sus și continuă jocul.
+  Future<void> _revive() async {
+    if (!DiamondService().canAfford(_reviveCost)) {
+      await _openShop();
+      return;
+    }
+    final ok = await DiamondService().spend(_reviveCost);
+    if (!ok || !mounted) return;
+    setState(() {
+      _board.clearTopRows(_reviveTopRows);
+      _board.spawn();
+      _over = false;
+      _revivedOnce = true;
+    });
+    _startTick();
+  }
+
+  /// Power-up in-joc: curăță rândurile de jos contra diamante.
+  Future<void> _usePowerClear() async {
+    if (_over) return;
+    if (!DiamondService().canAfford(_powerClearCost)) {
+      await _openShop();
+      return;
+    }
+    final ok = await DiamondService().spend(_powerClearCost);
+    if (!ok || !mounted) return;
+    setState(() {
+      _board.clearBottomRows(_powerClearBottomRows);
     });
     HapticFeedback.mediumImpact();
   }
@@ -206,6 +266,7 @@ class _GameScreenState extends State<GameScreen> with TickerProviderStateMixin {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      bottomNavigationBar: const SafeArea(child: BottomBanner()),
       body: AnimatedBuilder(
         animation: _bgAnim,
         builder: (ctx, _) => Container(
@@ -251,7 +312,7 @@ class _GameScreenState extends State<GameScreen> with TickerProviderStateMixin {
             shaderCallback: (r) => const LinearGradient(
               colors: [Color(0xFF00E5FF), Color(0xFFAB47BC)],
             ).createShader(r),
-            child: const Text('TETRIS SMILE',
+            child: const Text('BLOCK SMILE',
                 style: TextStyle(
                     fontSize: 22,
                     fontWeight: FontWeight.w900,
@@ -259,6 +320,51 @@ class _GameScreenState extends State<GameScreen> with TickerProviderStateMixin {
                     letterSpacing: 4)),
           ),
           const Spacer(),
+          if (!_over)
+            ValueListenableBuilder<int>(
+              valueListenable: DiamondService().notifier,
+              builder: (_, diamonds, _) {
+                final affordable = diamonds >= _powerClearCost;
+                return GestureDetector(
+                  onTap: _usePowerClear,
+                  child: Container(
+                    padding:
+                        const EdgeInsets.symmetric(horizontal: 10, vertical: 6),
+                    decoration: BoxDecoration(
+                      color: Colors.black.withValues(alpha: 0.4),
+                      borderRadius: BorderRadius.circular(20),
+                      border: Border.all(
+                        color: affordable
+                            ? const Color(0xFF40C4FF)
+                            : Colors.white24,
+                      ),
+                    ),
+                    child: Row(
+                      mainAxisSize: MainAxisSize.min,
+                      children: [
+                        const Icon(Icons.layers_clear,
+                            color: Color(0xFF40C4FF), size: 18),
+                        const SizedBox(width: 4),
+                        Icon(Icons.diamond,
+                            color: affordable
+                                ? const Color(0xFF40C4FF)
+                                : Colors.white38,
+                            size: 14),
+                        const SizedBox(width: 2),
+                        Text('$_powerClearCost',
+                            style: TextStyle(
+                                color: affordable
+                                    ? Colors.white
+                                    : Colors.white38,
+                                fontSize: 13,
+                                fontWeight: FontWeight.w900)),
+                      ],
+                    ),
+                  ),
+                );
+              },
+            ),
+          const SizedBox(width: 8),
           IconButton(
             icon: Icon(_paused ? Icons.play_arrow : Icons.pause, color: Colors.white),
             onPressed: () => setState(() => _paused = !_paused),
@@ -423,6 +529,35 @@ class _GameScreenState extends State<GameScreen> with TickerProviderStateMixin {
                 style: const TextStyle(
                     color: Colors.white, fontSize: 22, fontWeight: FontWeight.w700)),
             const SizedBox(height: 24),
+            // Revive contra diamante — o singură dată per partidă (fair-play).
+            if (!_revivedOnce)
+              Padding(
+                padding: const EdgeInsets.only(bottom: 12),
+                child: ElevatedButton(
+                  style: ElevatedButton.styleFrom(
+                    backgroundColor: const Color(0xFF2E7D32),
+                    foregroundColor: Colors.white,
+                    padding: const EdgeInsets.symmetric(
+                        horizontal: 32, vertical: 12),
+                    textStyle: const TextStyle(
+                        fontSize: 18, fontWeight: FontWeight.w900),
+                  ),
+                  onPressed: _revive,
+                  child: Row(
+                    mainAxisSize: MainAxisSize.min,
+                    children: [
+                      Text(AppStrings.of(context).continueGame),
+                      const SizedBox(width: 8),
+                      const Icon(Icons.diamond,
+                          color: Color(0xFF80D8FF), size: 18),
+                      const SizedBox(width: 3),
+                      const Text('$_reviveCost',
+                          style: TextStyle(
+                              fontSize: 16, fontWeight: FontWeight.w900)),
+                    ],
+                  ),
+                ),
+              ),
             ElevatedButton(
               style: ElevatedButton.styleFrom(
                 backgroundColor: const Color(0xFF00E5FF),
@@ -430,7 +565,9 @@ class _GameScreenState extends State<GameScreen> with TickerProviderStateMixin {
                 padding: const EdgeInsets.symmetric(horizontal: 40, vertical: 12),
                 textStyle: const TextStyle(fontSize: 18, fontWeight: FontWeight.w900),
               ),
-              onPressed: () {
+              onPressed: () async {
+                await AdService().showInterstitial();
+                if (!mounted) return;
                 setState(() {
                   _board.start();
                   _score = 0;
@@ -439,10 +576,20 @@ class _GameScreenState extends State<GameScreen> with TickerProviderStateMixin {
                   _combo = 0;
                   _blocksPlaced = 0;
                   _over = false;
+                  _revivedOnce = false;
                 });
                 _startTick();
               },
               child: Text(AppStrings.of(context).again),
+            ),
+            const SizedBox(height: 10),
+            TextButton(
+              onPressed: _openShop,
+              child: Text(
+                '💎 ${AppStrings.of(context).getDiamonds}',
+                style: const TextStyle(
+                    color: Color(0xFF40C4FF), fontWeight: FontWeight.w800),
+              ),
             ),
           ],
         ),

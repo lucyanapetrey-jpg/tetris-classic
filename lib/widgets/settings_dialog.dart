@@ -66,7 +66,7 @@ class _SettingsDialogState extends State<SettingsDialog> {
                 },
                 title: Text(audio.enabled ? s.musicOn : s.musicOff,
                     style: const TextStyle(color: Colors.white)),
-                activeColor: const Color(0xFF00E5FF),
+                activeThumbColor: const Color(0xFF00E5FF),
                 tileColor: Colors.white10,
                 shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
               ),
@@ -106,8 +106,9 @@ class _SettingsDialogState extends State<SettingsDialog> {
                               ? const Icon(Icons.check_circle, color: Color(0xFF00E5FF))
                               : null,
                           onTap: () async {
+                            final nav = Navigator.of(context);
                             await locale.setLocale(e.key);
-                            if (mounted) Navigator.of(context).pop();
+                            if (mounted) nav.pop();
                           },
                         ),
                       );
@@ -118,8 +119,9 @@ class _SettingsDialogState extends State<SettingsDialog> {
               const SizedBox(height: 8),
               TextButton(
                 onPressed: () async {
+                  final nav = Navigator.of(context);
                   await locale.setLocale(null);
-                  if (mounted) Navigator.of(context).pop();
+                  if (mounted) nav.pop();
                 },
                 child: const Text('System default',
                     style: TextStyle(color: Color(0xFFAB47BC))),

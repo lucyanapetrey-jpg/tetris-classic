@@ -1,8 +1,10 @@
+import 'dart:async';
 import 'dart:io' show Platform;
 
 import 'package:flutter/widgets.dart';
 import 'package:google_mobile_ads/google_mobile_ads.dart';
 
+import 'audio_service.dart';
 import 'purchase_service.dart';
 
 class AdService {
@@ -58,6 +60,10 @@ class AdService {
     );
   }
 
+  /// Arată un interstitial. Future-ul se completează DUPĂ ce reclama s-a
+  /// închis (sau imediat dacă reclama nu se afișează deloc — cooldown,
+  /// remove-ads, nepregătită). Folosește `await` la callsite ca să nu lași
+  /// jocul să tickeze peste ecranul de reclamă.
   Future<void> showInterstitial() async {
     if (adsDisabled) return;
     // Respectă un interval minim între interstitial-uri (anti-spam + politică).
@@ -70,23 +76,32 @@ class AdService {
       return;
     }
 
+    final completer = Completer<void>();
     _interstitialAd!.fullScreenContentCallback = FullScreenContentCallback(
+      onAdShowedFullScreenContent: (_) {
+        AudioService().pause();
+      },
       onAdDismissedFullScreenContent: (ad) {
         ad.dispose();
         _interstitialAd = null;
         _interstitialReady = false;
+        AudioService().resume();
         _loadInterstitialAd();
+        if (!completer.isCompleted) completer.complete();
       },
       onAdFailedToShowFullScreenContent: (ad, error) {
         ad.dispose();
         _interstitialAd = null;
         _interstitialReady = false;
+        AudioService().resume();
         _loadInterstitialAd();
+        if (!completer.isCompleted) completer.complete();
       },
     );
 
     _lastInterstitialAt = DateTime.now();
     await _interstitialAd!.show();
+    await completer.future;
   }
 
   /// Creează un banner adaptiv ancorat (eCPM/fill mai bun decât 320x50 fix).

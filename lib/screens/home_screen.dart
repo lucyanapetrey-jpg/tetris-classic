@@ -1,8 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import '../i18n/app_strings.dart';
+import '../services/diamond_service.dart';
 import '../services/rewards_service.dart';
+import '../widgets/bottom_banner.dart';
 import '../widgets/settings_dialog.dart';
+import '../widgets/shop_dialog.dart';
 import 'daily_reward_screen.dart';
 import 'game_screen.dart';
 
@@ -45,10 +48,44 @@ class _HomeScreenState extends State<HomeScreen> {
     });
   }
 
+  Future<void> _openShop() async {
+    await showDialog(context: context, builder: (_) => const ShopDialog());
+    _load();
+  }
+
+  Widget _pill({
+    required IconData icon,
+    required Color color,
+    required String text,
+    VoidCallback? onTap,
+  }) {
+    final pill = Container(
+      padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 6),
+      decoration: BoxDecoration(
+        color: Colors.black.withValues(alpha: 0.5),
+        borderRadius: BorderRadius.circular(20),
+        border: Border.all(color: color),
+      ),
+      child: Row(
+        mainAxisSize: MainAxisSize.min,
+        children: [
+          Icon(icon, color: color, size: 20),
+          const SizedBox(width: 6),
+          Text(text,
+              style: const TextStyle(
+                  color: Colors.white, fontSize: 18, fontWeight: FontWeight.w900)),
+        ],
+      ),
+    );
+    if (onTap == null) return pill;
+    return GestureDetector(onTap: onTap, child: pill);
+  }
+
   @override
   Widget build(BuildContext context) {
     final s = AppStrings.of(context);
     return Scaffold(
+      bottomNavigationBar: const SafeArea(child: BottomBanner()),
       body: Container(
         decoration: const BoxDecoration(
           gradient: LinearGradient(
@@ -74,22 +111,32 @@ class _HomeScreenState extends State<HomeScreen> {
                       ),
                       tooltip: 'Settings',
                     ),
-                    Container(
-                      padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 6),
-                      decoration: BoxDecoration(
-                        color: Colors.black.withValues(alpha: 0.5),
-                        borderRadius: BorderRadius.circular(20),
-                        border: Border.all(color: const Color(0xFFFFD740)),
-                      ),
-                      child: Row(
-                        children: [
-                          const Icon(Icons.monetization_on, color: Color(0xFFFFD740), size: 20),
-                          const SizedBox(width: 6),
-                          Text('$_coins',
-                              style: const TextStyle(
-                                  color: Colors.white, fontSize: 18, fontWeight: FontWeight.w900)),
-                        ],
-                      ),
+                    Row(
+                      children: [
+                        _pill(
+                          icon: Icons.monetization_on,
+                          color: const Color(0xFFFFD740),
+                          text: '$_coins',
+                        ),
+                        const SizedBox(width: 8),
+                        // Soldul de diamante — tap deschide magazinul.
+                        ValueListenableBuilder<int>(
+                          valueListenable: DiamondService().notifier,
+                          builder: (_, diamonds, _) => _pill(
+                            icon: Icons.diamond,
+                            color: const Color(0xFF40C4FF),
+                            text: '$diamonds',
+                            onTap: _openShop,
+                          ),
+                        ),
+                        const SizedBox(width: 8),
+                        IconButton(
+                          icon: const Icon(Icons.storefront,
+                              color: Color(0xFF00E5FF), size: 28),
+                          onPressed: _openShop,
+                          tooltip: 'Shop',
+                        ),
+                      ],
                     ),
                   ],
                 ),
@@ -99,7 +146,7 @@ class _HomeScreenState extends State<HomeScreen> {
                     colors: [Color(0xFF00E5FF), Color(0xFFAB47BC), Color(0xFFFF4081)],
                   ).createShader(r),
                   child: const Text(
-                    'TETRIS',
+                    'BLOCK',
                     textAlign: TextAlign.center,
                     style: TextStyle(
                       fontSize: 64,

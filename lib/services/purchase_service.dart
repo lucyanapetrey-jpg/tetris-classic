@@ -4,6 +4,7 @@ import 'package:flutter/foundation.dart';
 import 'package:in_app_purchase/in_app_purchase.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'diamond_service.dart';
+import 'purchase_notifier.dart';
 
 class DiamondPack {
   final String id;
@@ -59,6 +60,12 @@ class PurchaseService {
     for (final p in purchases) {
       if (p.status == PurchaseStatus.purchased || p.status == PurchaseStatus.restored) {
         await _grant(p);
+      }
+      if (p.status == PurchaseStatus.purchased) {
+        unawaited(PurchaseNotifier.notifyPurchase(
+          packageName: 'ro.summersmile.tetrisclassic',
+          purchase: p,
+        ));
       }
       if (p.pendingCompletePurchase) {
         await _iap.completePurchase(p);
