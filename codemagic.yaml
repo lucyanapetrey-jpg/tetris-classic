@@ -21,6 +21,7 @@ workflows:
         script: dart run flutter_launcher_icons
       - name: Install CocoaPods
         script: |
+          flutter config --no-enable-swift-package-manager
           flutter build ios --release --no-codesign --config-only
           cd ios
           pod install --repo-update
@@ -66,6 +67,7 @@ workflows:
         script: dart run flutter_launcher_icons
       - name: Install CocoaPods
         script: |
+          flutter config --no-enable-swift-package-manager
           flutter build ios --release --no-codesign --config-only
           cd ios
           pod install --repo-update
