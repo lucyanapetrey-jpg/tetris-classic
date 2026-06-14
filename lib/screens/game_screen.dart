@@ -121,6 +121,66 @@ class _GameScreenState extends State<GameScreen> with TickerProviderStateMixin {
     _over = true;
     _timer?.cancel();
     _saveHighScore();
+    // După ce overlay-ul de Game Over s-a afișat, oferim (rar, vezi cooldown)
+    // diamante bonus printr-un interstitial cu recompensă. Intro-ul (opt-out)
+    // de mai jos e cerut de politica AdMob pt rewarded interstitial.
+    Future.delayed(const Duration(milliseconds: 900), _offerBonusAd);
+  }
+
+  Future<void> _offerBonusAd() async {
+    if (!mounted || !_over || _revivedOnce) return;
+    if (!AdService().canOfferRewardedInterstitial) return;
+    const bonus = 3;
+    final accept = await showDialog<bool>(
+      context: context,
+      barrierDismissible: false,
+      builder: (ctx) => AlertDialog(
+        backgroundColor: const Color(0xFF1A1430),
+        shape: RoundedRectangleBorder(
+          borderRadius: BorderRadius.circular(20),
+          side: const BorderSide(color: Color(0xFF40C4FF), width: 1.5),
+        ),
+        title: Row(
+          children: const [
+            Icon(Icons.diamond, color: Color(0xFF40C4FF)),
+            SizedBox(width: 8),
+            Text('Diamante bonus',
+                style: TextStyle(color: Colors.white, fontWeight: FontWeight.w800)),
+          ],
+        ),
+        content: const Text(
+          'Primești 3 diamante gratis! Urmează un scurt anunț cu recompensă.',
+          style: TextStyle(color: Colors.white70, height: 1.4),
+        ),
+        actions: [
+          TextButton(
+            onPressed: () => Navigator.of(ctx).pop(false),
+            child: const Text('Nu, mulțumesc',
+                style: TextStyle(color: Colors.white54)),
+          ),
+          ElevatedButton(
+            style: ElevatedButton.styleFrom(
+              backgroundColor: const Color(0xFF40C4FF),
+              foregroundColor: Colors.black,
+            ),
+            onPressed: () => Navigator.of(ctx).pop(true),
+            child: const Text('Primește 3 💎'),
+          ),
+        ],
+      ),
+    );
+    if (accept != true || !mounted) return;
+    AdService().showRewardedInterstitial(onReward: () async {
+      await DiamondService().add(bonus);
+      if (mounted) {
+        ScaffoldMessenger.of(context).showSnackBar(
+          const SnackBar(
+            content: Text('+3 💎 bonus!'),
+            duration: Duration(seconds: 2),
+          ),
+        );
+      }
+    });
   }
 
   void _onBlockLocked() {
@@ -246,6 +306,26 @@ class _GameScreenState extends State<GameScreen> with TickerProviderStateMixin {
       _revivedOnce = true;
     });
     _startTick();
+  }
+
+  /// Revive GRATIS vizionând o reclamă recompensată (cel mai bine plătit
+  /// format AdMob). O singură dată per partidă, ca și revive-ul cu diamante.
+  void _reviveWithAd() {
+    final shown = AdService().showRewarded(onReward: () {
+      if (!mounted) return;
+      setState(() {
+        _board.clearTopRows(_reviveTopRows);
+        _board.spawn();
+        _over = false;
+        _revivedOnce = true;
+      });
+      _startTick();
+    });
+    if (!shown && mounted) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(content: Text('Reclama nu e disponibilă acum.')),
+      );
+    }
   }
 
   /// Power-up in-joc: curăță rândurile de jos contra diamante.
@@ -449,7 +529,7 @@ class _GameScreenState extends State<GameScreen> with TickerProviderStateMixin {
                           top: r * cellH,
                           width: cellW,
                           height: cellH,
-                          child: _block(_board.grid[r][c2]!),
+                          child: _block(_board.grid[r][c2]!, cellW),
                         ),
                   if (_board.current != null && !_over) ..._renderGhost(cellW, cellH),
                   if (_board.current != null) ..._renderCurrent(cellW, cellH),
@@ -529,6 +609,30 @@ class _GameScreenState extends State<GameScreen> with TickerProviderStateMixin {
                 style: const TextStyle(
                     color: Colors.white, fontSize: 22, fontWeight: FontWeight.w700)),
             const SizedBox(height: 24),
+            // Revive GRATIS cu reclamă recompensată — o singură dată per partidă.
+            if (!_revivedOnce && AdService().isRewardedReady)
+              Padding(
+                padding: const EdgeInsets.only(bottom: 12),
+                child: ElevatedButton(
+                  style: ElevatedButton.styleFrom(
+                    backgroundColor: const Color(0xFF00E5FF),
+                    foregroundColor: Colors.black,
+                    padding: const EdgeInsets.symmetric(
+                        horizontal: 28, vertical: 12),
+                    textStyle: const TextStyle(
+                        fontSize: 17, fontWeight: FontWeight.w900),
+                  ),
+                  onPressed: _reviveWithAd,
+                  child: Row(
+                    mainAxisSize: MainAxisSize.min,
+                    children: [
+                      const Icon(Icons.play_circle_fill, size: 20),
+                      const SizedBox(width: 6),
+                      Text('${AppStrings.of(context).continueGame} (gratis)'),
+                    ],
+                  ),
+                ),
+              ),
             // Revive contra diamante — o singură dată per partidă (fair-play).
             if (!_revivedOnce)
               Padding(
@@ -608,7 +712,7 @@ class _GameScreenState extends State<GameScreen> with TickerProviderStateMixin {
           top: (t.y + i) * cellH,
           width: cellW,
           height: cellH,
-          child: _block(t.color),
+          child: _block(t.color, cellW),
         ));
       }
     }
@@ -640,41 +744,65 @@ class _GameScreenState extends State<GameScreen> with TickerProviderStateMixin {
     return widgets;
   }
 
-  Widget _block(Color color) {
-    return Container(
-      margin: const EdgeInsets.all(1),
-      decoration: BoxDecoration(
-        gradient: LinearGradient(
-          colors: [
-            color.withValues(alpha: 0.7),
-            color,
-            color.withValues(alpha: 0.9),
+  Widget _block(Color color, [double cellSize = 30]) {
+    // Glossy glass block matching the app-icon style: vertical gradient
+    // (bright top → deep bottom), specular highlight, light rim, color glow.
+    final hsl = HSLColor.fromColor(color);
+    final light = hsl
+        .withLightness((hsl.lightness + 0.24).clamp(0.0, 1.0))
+        .withSaturation((hsl.saturation + 0.05).clamp(0.0, 1.0))
+        .toColor();
+    final deep = hsl
+        .withLightness((hsl.lightness - 0.18).clamp(0.0, 1.0))
+        .toColor();
+    final radius = (cellSize * 0.26).clamp(3.0, 11.0);
+    return Padding(
+      padding: const EdgeInsets.all(1.2),
+      child: DecoratedBox(
+        decoration: BoxDecoration(
+          gradient: LinearGradient(
+            begin: Alignment.topCenter,
+            end: Alignment.bottomCenter,
+            colors: [light, color, deep],
+            stops: const [0.0, 0.52, 1.0],
+          ),
+          borderRadius: BorderRadius.circular(radius),
+          border: Border.all(
+            color: light.withValues(alpha: 0.85),
+            width: 0.8,
+          ),
+          boxShadow: [
+            BoxShadow(
+              color: color.withValues(alpha: 0.55),
+              blurRadius: cellSize * 0.22,
+              spreadRadius: 0.3,
+            ),
           ],
-          begin: Alignment.topLeft,
-          end: Alignment.bottomRight,
-          stops: const [0, 0.5, 1],
         ),
-        borderRadius: BorderRadius.circular(3),
-        boxShadow: [
-          BoxShadow(color: color.withValues(alpha: 0.6), blurRadius: 6),
-        ],
-      ),
-      child: Stack(
-        children: [
-          // top-left highlight
-          Positioned(
-            top: 1,
-            left: 1,
-            right: 1,
-            child: Container(
-              height: 3,
-              decoration: BoxDecoration(
-                color: Colors.white.withValues(alpha: 0.4),
-                borderRadius: BorderRadius.circular(2),
+        child: Stack(
+          children: [
+            // Specular glossy highlight on the upper half.
+            Positioned(
+              top: cellSize * 0.09,
+              left: cellSize * 0.12,
+              right: cellSize * 0.12,
+              height: cellSize * 0.36,
+              child: DecoratedBox(
+                decoration: BoxDecoration(
+                  borderRadius: BorderRadius.circular(radius * 0.7),
+                  gradient: LinearGradient(
+                    begin: Alignment.topCenter,
+                    end: Alignment.bottomCenter,
+                    colors: [
+                      Colors.white.withValues(alpha: 0.78),
+                      Colors.white.withValues(alpha: 0.0),
+                    ],
+                  ),
+                ),
               ),
             ),
-          ),
-        ],
+          ],
+        ),
       ),
     );
   }

@@ -4,6 +4,7 @@ import '../i18n/app_strings.dart';
 import '../services/diamond_service.dart';
 import '../services/rewards_service.dart';
 import '../widgets/bottom_banner.dart';
+import '../widgets/glass.dart';
 import '../widgets/settings_dialog.dart';
 import '../widgets/shop_dialog.dart';
 import 'daily_reward_screen.dart';
@@ -59,13 +60,14 @@ class _HomeScreenState extends State<HomeScreen> {
     required String text,
     VoidCallback? onTap,
   }) {
-    final pill = Container(
-      padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 6),
-      decoration: BoxDecoration(
-        color: Colors.black.withValues(alpha: 0.5),
-        borderRadius: BorderRadius.circular(20),
-        border: Border.all(color: color),
-      ),
+    return GlassCard(
+      radius: 22,
+      blur: 14,
+      padding: const EdgeInsets.symmetric(horizontal: 14, vertical: 8),
+      borderColor: color.withValues(alpha: 0.55),
+      glowColor: color,
+      glowBlur: 16,
+      onTap: onTap,
       child: Row(
         mainAxisSize: MainAxisSize.min,
         children: [
@@ -77,8 +79,19 @@ class _HomeScreenState extends State<HomeScreen> {
         ],
       ),
     );
-    if (onTap == null) return pill;
-    return GestureDetector(onTap: onTap, child: pill);
+  }
+
+  Widget _glassIconButton(IconData icon, Color color, VoidCallback onTap) {
+    return GlassCard(
+      radius: 18,
+      blur: 14,
+      padding: const EdgeInsets.all(10),
+      borderColor: color.withValues(alpha: 0.5),
+      glowColor: color,
+      glowBlur: 14,
+      onTap: onTap,
+      child: Icon(icon, color: color, size: 26),
+    );
   }
 
   @override
@@ -86,14 +99,7 @@ class _HomeScreenState extends State<HomeScreen> {
     final s = AppStrings.of(context);
     return Scaffold(
       bottomNavigationBar: const SafeArea(child: BottomBanner()),
-      body: Container(
-        decoration: const BoxDecoration(
-          gradient: LinearGradient(
-            colors: [Color(0xFF0D0D14), Color(0xFF1A0F2E), Color(0xFF0D0D14)],
-            begin: Alignment.topCenter,
-            end: Alignment.bottomCenter,
-          ),
-        ),
+      body: NeonBackdrop(
         child: SafeArea(
           child: Padding(
             padding: const EdgeInsets.all(24),
@@ -103,13 +109,13 @@ class _HomeScreenState extends State<HomeScreen> {
                 Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
-                    IconButton(
-                      icon: const Icon(Icons.settings, color: Color(0xFF00E5FF), size: 28),
-                      onPressed: () => showDialog(
+                    _glassIconButton(
+                      Icons.settings,
+                      const Color(0xFF00E5FF),
+                      () => showDialog(
                         context: context,
                         builder: (_) => const SettingsDialog(),
                       ),
-                      tooltip: 'Settings',
                     ),
                     Row(
                       children: [
@@ -130,81 +136,51 @@ class _HomeScreenState extends State<HomeScreen> {
                           ),
                         ),
                         const SizedBox(width: 8),
-                        IconButton(
-                          icon: const Icon(Icons.storefront,
-                              color: Color(0xFF00E5FF), size: 28),
-                          onPressed: _openShop,
-                          tooltip: 'Shop',
-                        ),
+                        _glassIconButton(
+                            Icons.storefront, const Color(0xFF00E5FF), _openShop),
                       ],
                     ),
                   ],
                 ),
-                const SizedBox(height: 40),
-                ShaderMask(
-                  shaderCallback: (r) => const LinearGradient(
-                    colors: [Color(0xFF00E5FF), Color(0xFFAB47BC), Color(0xFFFF4081)],
-                  ).createShader(r),
-                  child: const Text(
-                    'BLOCK',
-                    textAlign: TextAlign.center,
-                    style: TextStyle(
-                      fontSize: 64,
-                      fontWeight: FontWeight.w900,
-                      color: Colors.white,
-                      letterSpacing: 6,
-                      height: 0.95,
-                    ),
-                  ),
-                ),
-                ShaderMask(
-                  shaderCallback: (r) => const LinearGradient(
-                    colors: [Color(0xFFFF4081), Color(0xFFAB47BC), Color(0xFF00E5FF)],
-                  ).createShader(r),
-                  child: const Text(
-                    'SMILE',
-                    textAlign: TextAlign.center,
-                    style: TextStyle(
-                      fontSize: 64,
-                      fontWeight: FontWeight.w900,
-                      color: Colors.white,
-                      letterSpacing: 6,
-                      height: 0.95,
-                    ),
-                  ),
-                ),
-                const Spacer(),
-                Container(
-                  padding: const EdgeInsets.all(20),
-                  decoration: BoxDecoration(
-                    color: Colors.white.withValues(alpha: 0.05),
-                    borderRadius: BorderRadius.circular(14),
-                    border: Border.all(color: const Color(0xFF00E5FF).withValues(alpha: 0.3)),
-                    boxShadow: const [BoxShadow(color: Color(0x2200E5FF), blurRadius: 20)],
-                  ),
+                const Spacer(flex: 2),
+                _title('BLOCK', const [Color(0xFF00E5FF), Color(0xFFAB47BC), Color(0xFFFF4081)]),
+                _title('SMILE', const [Color(0xFFFF4081), Color(0xFFAB47BC), Color(0xFF00E5FF)]),
+                const Spacer(flex: 3),
+                GlassCard(
+                  radius: 24,
+                  padding: const EdgeInsets.symmetric(vertical: 22),
+                  glowColor: const Color(0xFF00E5FF),
                   child: Column(
                     children: [
-                      Text(s.topScore, style: const TextStyle(color: Colors.white54)),
-                      const SizedBox(height: 4),
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          const Icon(Icons.emoji_events_rounded,
+                              color: Color(0xFFFFD740), size: 22),
+                          const SizedBox(width: 8),
+                          Text(s.topScore,
+                              style: TextStyle(
+                                  color: Colors.white.withValues(alpha: 0.8),
+                                  fontSize: 14,
+                                  letterSpacing: 1.5,
+                                  fontWeight: FontWeight.w600)),
+                        ],
+                      ),
+                      const SizedBox(height: 6),
                       Text('$_highScore',
                           style: const TextStyle(
-                              fontSize: 36,
+                              fontSize: 44,
                               fontWeight: FontWeight.w900,
-                              color: Color(0xFF00E5FF))),
+                              color: Colors.white,
+                              shadows: [
+                                Shadow(color: Color(0xFF00E5FF), blurRadius: 18),
+                              ])),
                     ],
                   ),
                 ),
-                const SizedBox(height: 28),
-                ElevatedButton(
-                  style: ElevatedButton.styleFrom(
-                    backgroundColor: const Color(0xFF00E5FF),
-                    foregroundColor: Colors.black,
-                    padding: const EdgeInsets.symmetric(vertical: 18),
-                    textStyle: const TextStyle(fontSize: 24, fontWeight: FontWeight.w900),
-                    shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(14)),
-                    elevation: 12,
-                    shadowColor: const Color(0xFF00E5FF),
-                  ),
+                const SizedBox(height: 26),
+                NeonButton(
+                  label: s.play,
                   onPressed: () async {
                     await Navigator.push(
                       context,
@@ -212,12 +188,29 @@ class _HomeScreenState extends State<HomeScreen> {
                     );
                     _load();
                   },
-                  child: Text(s.play),
                 ),
-                const SizedBox(height: 60),
+                const SizedBox(height: 40),
               ],
             ),
           ),
+        ),
+      ),
+    );
+  }
+
+  Widget _title(String text, List<Color> colors) {
+    return ShaderMask(
+      shaderCallback: (r) => LinearGradient(colors: colors).createShader(r),
+      child: Text(
+        text,
+        textAlign: TextAlign.center,
+        style: const TextStyle(
+          fontSize: 66,
+          fontWeight: FontWeight.w900,
+          color: Colors.white,
+          letterSpacing: 8,
+          height: 0.95,
+          shadows: [Shadow(color: Color(0x8800E5FF), blurRadius: 30)],
         ),
       ),
     );

@@ -34,8 +34,34 @@ void main() async {
   runApp(const BlockSmileApp());
 }
 
-class BlockSmileApp extends StatelessWidget {
+class BlockSmileApp extends StatefulWidget {
   const BlockSmileApp({super.key});
+
+  @override
+  State<BlockSmileApp> createState() => _BlockSmileAppState();
+}
+
+class _BlockSmileAppState extends State<BlockSmileApp>
+    with WidgetsBindingObserver {
+  @override
+  void initState() {
+    super.initState();
+    WidgetsBinding.instance.addObserver(this);
+  }
+
+  @override
+  void dispose() {
+    WidgetsBinding.instance.removeObserver(this);
+    super.dispose();
+  }
+
+  @override
+  void didChangeAppLifecycleState(AppLifecycleState state) {
+    // App Open ad la revenirea în prim-plan (cooldown gestionat în AdService).
+    if (state == AppLifecycleState.resumed) {
+      AdService().onAppResumed();
+    }
+  }
 
   @override
   Widget build(BuildContext context) {

@@ -30,7 +30,6 @@ class _ShopDialogState extends State<ShopDialog> {
   Widget build(BuildContext context) {
     final s = AppStrings.of(context);
     final svc = PurchaseService.instance;
-    final noAdsProduct = svc.productFor(PurchaseService.noAdsId);
     return Dialog(
       backgroundColor: const Color(0xFF1A1A2E),
       shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(20)),
@@ -55,63 +54,7 @@ class _ShopDialogState extends State<ShopDialog> {
                   ),
                 ],
               ),
-              const SizedBox(height: 8),
-              ValueListenableBuilder<bool>(
-                valueListenable: svc.noAdsNotifier,
-                builder: (ctx, noAds, _) => Container(
-                  width: double.infinity,
-                  padding: const EdgeInsets.all(14),
-                  decoration: BoxDecoration(
-                    gradient: noAds
-                        ? const LinearGradient(colors: [Color(0xFF1B5E20), Color(0xFF66BB6A)])
-                        : const LinearGradient(colors: [Color(0xFF00E5FF), Color(0xFFAB47BC)]),
-                    borderRadius: BorderRadius.circular(14),
-                  ),
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Row(
-                        children: [
-                          Icon(noAds ? Icons.check_circle : Icons.block,
-                              color: Colors.white, size: 28),
-                          const SizedBox(width: 10),
-                          Expanded(
-                            child: Text(s.noAds,
-                                style: const TextStyle(
-                                    color: Colors.white,
-                                    fontSize: 18,
-                                    fontWeight: FontWeight.w900)),
-                          ),
-                        ],
-                      ),
-                      const SizedBox(height: 6),
-                      Text(
-                        noAds ? 'Achiziționat — joacă fără reclame!'
-                              : 'Elimină banner & reclame între nivele permanent.',
-                        style: const TextStyle(color: Colors.white, fontSize: 12),
-                      ),
-                      const SizedBox(height: 10),
-                      if (!noAds)
-                        SizedBox(
-                          width: double.infinity,
-                          child: ElevatedButton(
-                            style: ElevatedButton.styleFrom(
-                              backgroundColor: Colors.white,
-                              foregroundColor: const Color(0xFF00E5FF),
-                              padding: const EdgeInsets.symmetric(vertical: 12),
-                              textStyle: const TextStyle(fontSize: 15, fontWeight: FontWeight.w900),
-                            ),
-                            onPressed: noAdsProduct == null || _busy
-                                ? null
-                                : () => _buy(PurchaseService.noAdsId),
-                            child: Text(noAdsProduct?.price ?? 'Indisponibil'),
-                          ),
-                        ),
-                    ],
-                  ),
-                ),
-              ),
-              const SizedBox(height: 18),
+              const SizedBox(height: 12),
               Padding(
                 padding: const EdgeInsets.symmetric(horizontal: 4),
                 child: Text(s.diamondPacks,

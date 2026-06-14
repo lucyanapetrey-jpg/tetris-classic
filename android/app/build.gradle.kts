@@ -48,8 +48,15 @@ android {
     buildTypes {
         release {
             signingConfig = signingConfigs.getByName("release")
-            isMinifyEnabled = false
-            isShrinkResources = false
+            // R8: micsoreaza app-ul + genereaza fisierul de deobfuscare (mapping)
+            // pe care Play il foloseste pt rapoarte de crash/ANR clare.
+            // proguard-android.txt (NU -optimize) ca sa nu strice plugin-urile.
+            isMinifyEnabled = true
+            isShrinkResources = true
+            proguardFiles(
+                getDefaultProguardFile("proguard-android.txt"),
+                "proguard-rules.pro"
+            )
         }
     }
 }

@@ -2,11 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:google_mobile_ads/google_mobile_ads.dart';
 
 import '../services/ad_service.dart';
-import '../services/purchase_service.dart';
 
-/// Banner ancorat jos. Se ascunde singur dacă userul a cumpărat „Fără reclame"
-/// (ascultă `noAdsNotifier`) sau dacă reclama nu se încarcă. Nu ocupă spațiu
-/// până nu e încărcat efectiv (fără gol vizual).
+/// Banner ancorat jos. Nu ocupă spațiu până nu e încărcat efectiv (fără gol
+/// vizual) și se ascunde singur dacă reclama nu se încarcă.
 class BottomBanner extends StatefulWidget {
   const BottomBanner({super.key});
 
@@ -20,12 +18,6 @@ class _BottomBannerState extends State<BottomBanner> {
   bool _init = false;
 
   @override
-  void initState() {
-    super.initState();
-    PurchaseService.instance.noAdsNotifier.addListener(_onNoAdsChanged);
-  }
-
-  @override
   void didChangeDependencies() {
     super.didChangeDependencies();
     if (!_init) {
@@ -34,16 +26,8 @@ class _BottomBannerState extends State<BottomBanner> {
     }
   }
 
-  void _onNoAdsChanged() {
-    if (PurchaseService.instance.noAds) {
-      _ad?.dispose();
-      _ad = null;
-      if (mounted) setState(() => _loaded = false);
-    }
-  }
-
   Future<void> _load() async {
-    if (!mounted || PurchaseService.instance.noAds) return;
+    if (!mounted) return;
     final widthDp = MediaQuery.of(context).size.width.truncate();
     final banner = await AdService().createAnchoredBanner(
       widthDp: widthDp,
@@ -61,7 +45,6 @@ class _BottomBannerState extends State<BottomBanner> {
 
   @override
   void dispose() {
-    PurchaseService.instance.noAdsNotifier.removeListener(_onNoAdsChanged);
     _ad?.dispose();
     super.dispose();
   }
