@@ -61,8 +61,10 @@ class AdService {
 
   // ---- Retry cu backoff (crește rata de potrivire) ----
   static const int _maxLoadRetries = 5;
+  int _interstitialRetry = 0;
   int _rewardedRetry = 0;
   int _appOpenRetry = 0;
+  Timer? _interstitialRetryTimer;
   Timer? _rewardedRetryTimer;
   Timer? _appOpenRetryTimer;
   Duration _backoff(int attempt) =>
@@ -97,9 +99,20 @@ class AdService {
         onAdLoaded: (ad) {
           _interstitialAd = ad;
           _interstitialReady = true;
+          _interstitialRetry = 0;
         },
         onAdFailedToLoad: (error) {
           _interstitialReady = false;
+          _interstitialAd = null;
+          // Reîncearcă cu backoff: un no-fill tranzitoriu nu mai lasă jocul
+          // fără interstitial-uri pentru toată sesiunea (cauza „nu apar reclame").
+          if (!adsDisabled && _interstitialRetry < _maxLoadRetries) {
+            _interstitialRetry++;
+            _interstitialRetryTimer?.cancel();
+            _interstitialRetryTimer = Timer(_backoff(_interstitialRetry), () {
+              if (_interstitialAd == null) _loadInterstitialAd();
+            });
+          }
         },
       ),
     );
