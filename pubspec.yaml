@@ -1,7 +1,7 @@
 name: tetris_classic
 description: "Block Smile — Joc de puzzle clasic cu blocuri, niveluri si line clearing"
 publish_to: 'none'
-version: 2.6.6+29
+version: 2.6.7+30
 environment:
   sdk: ^3.11.1
 

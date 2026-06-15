@@ -35,12 +35,20 @@ class AdService {
   // tranziții, dar OBLIGATORIU cu ecran de intro (opt-out) înainte.
   static const String _androidRewardedInterstitialId =
       'ca-app-pub-5549243085914479/4146031661';
+  // Unități iOS reale create 2026-06-15 (AdMob app Tetris Classic iOS ~1797689638).
+  // Activează formatele cu eCPM mare și pe iPhone/iPad (înainte erau dezactivate).
+  static const String _iosRewardedId =
+      'ca-app-pub-5549243085914479/6452932126';
+  static const String _iosAppOpenId =
+      'ca-app-pub-5549243085914479/7978061933';
+  static const String _iosRewardedInterstitialId =
+      'ca-app-pub-5549243085914479/2513687115';
   static String? get _rewardedAdUnitId =>
-      Platform.isAndroid ? _androidRewardedId : null;
+      Platform.isIOS ? _iosRewardedId : _androidRewardedId;
   static String? get _appOpenAdUnitId =>
-      Platform.isAndroid ? _androidAppOpenId : null;
+      Platform.isIOS ? _iosAppOpenId : _androidAppOpenId;
   static String? get _rewardedInterstitialAdUnitId =>
-      Platform.isAndroid ? _androidRewardedInterstitialId : null;
+      Platform.isIOS ? _iosRewardedInterstitialId : _androidRewardedInterstitialId;
 
   bool _initialized = false;
   InterstitialAd? _interstitialAd;
